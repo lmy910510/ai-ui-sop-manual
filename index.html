@@ -157,38 +157,7 @@
             <h2 class="text-3xl font-bold text-stone-900">2. 底层逻辑：AI 是如何运作的</h2>
         </div>
         
-        <!-- 概率预测公式 -->
-        <div class="bg-white rounded-lg border border-stone-200 p-10">
-            <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center gap-3">
-                📐 概率预测与自回归机制的本质
-            </h3>
-            <p class="text-stone-500 mb-8 leading-relaxed">
-                大型语言模型（LLM）在生成代码时，其核心是一个<strong class="text-stone-800">基于概率的序列预测器</strong>。对于任何给定的输入序列，模型实际上是在计算下一个标记（Token）的条件概率分布：
-            </p>
-            <div class="formula-box mb-8">
-                <div class="text-lg text-stone-800 font-mono" id="formula">
-                    P(x<sub>t+1</sub> | x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>t</sub>; θ)
-                </div>
-                <p class="text-sm text-stone-400 mt-4">其中 θ 代表模型的参数，x 代表输入的 Token 序列</p>
-            </div>
-            <div class="bg-stone-50 border border-stone-200 rounded-lg p-6">
-                <p class="text-stone-600 text-sm leading-relaxed">
-                    <strong>⚠️ 关键认知：</strong>这意味着 AI 并不理解什么是"美学"或"品牌一致性"，它只是根据训练数据中代码与描述的统计关联，预测出最可能出现的代码片段。当用户提出"增加一个AI入口"时，模型可能会在导航栏添加图标，但它<strong>无法理解</strong>该入口背后的交互逻辑、权限控制或数据流向。
-                </p>
-            </div>
-        </div>
-
-        <!-- LLM → MLLM 过渡说明 -->
-        <div class="bg-stone-100/80 border border-stone-200 rounded-lg p-8">
-            <div>
-                <h4 class="font-bold text-stone-700 mb-2">从 LLM 到 MLLM —— 多了一双"眼睛"</h4>
-                <p class="text-stone-600 leading-relaxed text-sm">
-                    以上是所有大语言模型（LLM）的共同底座：<strong class="text-stone-800">基于文本 Token 的自回归概率预测</strong>。当模型进化为多模态版本（MLLM）后，它在文本预测能力之上增加了一个<strong class="text-stone-800">视觉编码器</strong>（通常是 ViT）——能"看"图了，但看的方式和人完全不同：它把图片切成若干小补丁（Patch），编码为 Token，再和文字 Token 一起送进 Transformer 做概率预测。这意味着<strong class="text-stone-800">它有视觉输入能力，但没有空间坐标系</strong>，间距、对齐、层级关系仍然靠"猜"。
-                </p>
-            </div>
-        </div>
-
-        <!-- AI 模型族谱：UI 生成的四大引擎 -->
+        <!-- AI 模型族谱：UI 生成的三大引擎 -->
         <div class="bg-white rounded-lg border border-stone-200 p-10">
             <h3 class="text-xl font-bold text-stone-800 mb-3">
                 AI 模型族谱：UI 生成链路中的三大引擎
@@ -251,6 +220,37 @@
             <div class="bg-stone-100/60 rounded-lg p-5">
                 <p class="text-sm text-stone-700 leading-relaxed">
                     <strong>它们如何协作？</strong> 在实际的 AI-UI 生产流程中，这三类模型往往串联使用：<strong class="text-stone-900">Diffusion 模型</strong>负责前期视觉探索出图 → <strong class="text-stone-900">MLLM</strong> 读取设计稿理解视觉意图 → <strong class="text-stone-900">LLM</strong> 将意图转译为工程代码。理解每种模型的能力边界，才能在正确的环节选择正确的工具。
+                </p>
+            </div>
+        </div>
+
+        <!-- 概率预测公式 -->
+        <div class="bg-white rounded-lg border border-stone-200 p-10">
+            <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center gap-3">
+                📐 概率预测与自回归机制的本质
+            </h3>
+            <p class="text-stone-500 mb-8 leading-relaxed">
+                大型语言模型（LLM）在生成代码时，其核心是一个<strong class="text-stone-800">基于概率的序列预测器</strong>。对于任何给定的输入序列，模型实际上是在计算下一个标记（Token）的条件概率分布：
+            </p>
+            <div class="formula-box mb-8">
+                <div class="text-lg text-stone-800 font-mono" id="formula">
+                    P(x<sub>t+1</sub> | x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>t</sub>; θ)
+                </div>
+                <p class="text-sm text-stone-400 mt-4">其中 θ 代表模型的参数，x 代表输入的 Token 序列</p>
+            </div>
+            <div class="bg-stone-50 border border-stone-200 rounded-lg p-6">
+                <p class="text-stone-600 text-sm leading-relaxed">
+                    <strong>⚠️ 关键认知：</strong>这意味着 AI 并不理解什么是"美学"或"品牌一致性"，它只是根据训练数据中代码与描述的统计关联，预测出最可能出现的代码片段。当用户提出"增加一个AI入口"时，模型可能会在导航栏添加图标，但它<strong>无法理解</strong>该入口背后的交互逻辑、权限控制或数据流向。
+                </p>
+            </div>
+        </div>
+
+        <!-- LLM → MLLM 过渡说明 -->
+        <div class="bg-stone-100/80 border border-stone-200 rounded-lg p-8">
+            <div>
+                <h4 class="font-bold text-stone-700 mb-2">从 LLM 到 MLLM —— 多了一双"眼睛"</h4>
+                <p class="text-stone-600 leading-relaxed text-sm">
+                    以上是所有大语言模型（LLM）的共同底座：<strong class="text-stone-800">基于文本 Token 的自回归概率预测</strong>。当模型进化为多模态版本（MLLM）后，它在文本预测能力之上增加了一个<strong class="text-stone-800">视觉编码器</strong>（通常是 ViT）——能"看"图了，但看的方式和人完全不同：它把图片切成若干小补丁（Patch），编码为 Token，再和文字 Token 一起送进 Transformer 做概率预测。这意味着<strong class="text-stone-800">它有视觉输入能力，但没有空间坐标系</strong>，间距、对齐、层级关系仍然靠"猜"。
                 </p>
             </div>
         </div>
