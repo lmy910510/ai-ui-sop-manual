@@ -191,13 +191,13 @@
         <!-- AI 模型族谱：UI 生成的四大引擎 -->
         <div class="bg-white rounded-lg border border-stone-200 p-10">
             <h3 class="text-xl font-bold text-stone-800 mb-3">
-                AI 模型族谱：UI 生成链路中的四大引擎
+                AI 模型族谱：UI 生成链路中的三大引擎
             </h3>
             <p class="text-stone-500 mb-8 leading-relaxed text-sm">
-                在完整的 AI-UI 生产链路中，不止一种模型在发挥作用。以下是当前与 UI 工程化最相关的四大模型家族，它们各自承担不同环节，协同构成了从"需求"到"像素"的完整管线。
+                在完整的 AI-UI 生产链路中，不止一种模型在发挥作用。以下是当前与 UI 工程化最相关的三大模型家族，它们各自承担不同环节，协同构成了从"需求"到"像素"的完整管线。
             </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- LLM -->
                 <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
                     <div class="flex items-center gap-3 mb-3">
@@ -245,28 +245,12 @@
                         <p><strong class="text-stone-600">核心局限：</strong>输出是像素图而非可编辑代码，无法直接用于工程</p>
                     </div>
                 </div>
-
-                <!-- Agentic AI -->
-                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-xs font-bold text-white bg-stone-700 px-2.5 py-1 rounded">Agent</span>
-                        <span class="text-sm font-semibold text-stone-800">智能体（Agentic AI）</span>
-                    </div>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-3">
-                        不是一种新模型，而是 LLM 的"升级用法"：让模型具备规划、工具调用和自我纠错的循环能力，从"回答问题"进化为"自主完成任务"。
-                    </p>
-                    <div class="text-xs text-stone-400 space-y-1.5">
-                        <p><strong class="text-stone-600">代表：</strong>Devin、Claude Code、OpenAI Codex (Agent)</p>
-                        <p><strong class="text-stone-600">在 UI 链路中的角色：</strong>自主完成"读规格 → 写代码 → 跑测试 → 修 Bug"多步链路</p>
-                        <p><strong class="text-stone-600">核心局限：</strong>规划链越长越容易偏离，仍需 HITL 检查点介入</p>
-                    </div>
-                </div>
             </div>
 
             <!-- 协作关系说明 -->
             <div class="bg-stone-100/60 rounded-lg p-5">
                 <p class="text-sm text-stone-700 leading-relaxed">
-                    <strong>它们如何协作？</strong> 在实际的 AI-UI 生产流程中，这四类能力往往串联使用：<strong class="text-stone-900">Diffusion 模型</strong>负责前期视觉探索出图 → <strong class="text-stone-900">MLLM</strong> 读取设计稿理解视觉意图 → <strong class="text-stone-900">LLM</strong> 将意图转译为工程代码 → <strong class="text-stone-900">Agent</strong> 自主串联整个流程并完成迭代修复。理解每种模型的能力边界，才能在正确的环节选择正确的工具。
+                    <strong>它们如何协作？</strong> 在实际的 AI-UI 生产流程中，这三类模型往往串联使用：<strong class="text-stone-900">Diffusion 模型</strong>负责前期视觉探索出图 → <strong class="text-stone-900">MLLM</strong> 读取设计稿理解视觉意图 → <strong class="text-stone-900">LLM</strong> 将意图转译为工程代码。理解每种模型的能力边界，才能在正确的环节选择正确的工具。
                 </p>
             </div>
         </div>
