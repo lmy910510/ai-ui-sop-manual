@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD 质量治理 — 需求"洗白"策略</title>
+    <style>
+        /* ========================================
+           Notion-Style Design System (Stone)
+           ======================================== */
+        
+        :root {
+            /* Stone 色板 */
+            --stone-50: #fafaf9;
+            --stone-100: #f5f5f4;
+            --stone-200: #e7e5e4;
+            --stone-300: #d6d3d1;
+            --stone-400: #a8a29e;
+            --stone-500: #78716c;
+            --stone-600: #57534e;
+            --stone-700: #44403c;
+            --stone-800: #292524;
+            --stone-900: #1c1917;
+            
+            /* 语义色 */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--stone-50);
+            --bg-tertiary: var(--stone-100);
+            --text-primary: var(--stone-800);
+            --text-secondary: var(--stone-600);
+            --text-tertiary: var(--stone-500);
+            --border-color: var(--stone-200);
+            --border-light: var(--stone-100);
+            
+            /* 强调色 */
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            
+            /* 间距系统 */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            
+            /* 圆角 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            
+            /* 字体 */
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SF Mono", "Fira Code", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ========================================
+           布局
+           ======================================== */
+        
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-6);
+        }
+        
+        /* ========================================
+           顶部导航
+           ======================================== */
+        
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-10);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.15s ease;
+        }
+        
+        .back-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .breadcrumb {
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========================================
+           页面标题
+           ======================================== */
+        
+        .page-header {
+            margin-bottom: var(--space-12);
+        }
+        
+        .page-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            letter-spacing: -0.02em;
+        }
+        
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 700px;
+        }
+        
+        /* ========================================
+           核心理念卡片
+           ======================================== */
+        
+        .core-concept {
+            background: linear-gradient(135deg, var(--stone-800) 0%, var(--stone-900) 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-10);
+            color: white;
+        }
+        
+        .core-concept-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--stone-400);
+            margin-bottom: var(--space-3);
+        }
+        
+        .core-concept-main {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+        
+        .core-concept-desc {
+            color: var(--stone-300);
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+           策略卡片
+           ======================================== */
+        
+        .strategy-section {
+            margin-bottom: var(--space-10);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .section-title .emoji {
+            font-size: 28px;
+        }
+        
+        .strategy-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-6);
+        }
+        
+        .strategy-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .strategy-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--stone-800);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .strategy-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .strategy-card-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .strategy-content {
+            margin-top: var(--space-6);
+        }
+        
+        .strategy-content h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-3);
+            margin-top: var(--space-5);
+        }
+        
+        .strategy-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .strategy-content p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+            line-height: 1.7;
+        }
+        
+        .strategy-content ul {
+            margin-left: var(--space-5);
+            color: var(--text-secondary);
+        }
+        
+        .strategy-content li {
+            margin-bottom: var(--space-2);
+        }
+        
+        /* ========================================
+           流程图
+           ======================================== */
+        
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin: var(--space-5) 0;
+            padding: var(--space-4);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .flow-step .icon {
+            font-size: 16px;
+        }
+        
+        .flow-arrow {
+            color: var(--text-tertiary);
+            font-size: 18px;
+        }
+        
+        /* ========================================
+           代码/Prompt 块
+           ======================================== */
+        
+        .prompt-block {
+            background: var(--stone-800);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin: var(--space-4) 0;
+            overflow-x: auto;
+        }
+        
+        .prompt-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--stone-700);
+        }
+        
+        .prompt-block-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--stone-400);
+        }
+        
+        .prompt-block pre {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--stone-200);
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           对比表格
+           ======================================== */
+        
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin: var(--space-6) 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+        
+        .comparison-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        
+        .comparison-table td {
+            color: var(--text-secondary);
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover td {
+            background: var(--bg-secondary);
+        }
+        
+        .pm-type-tag {
+            display: inline-block;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pm-type-tag.beginner {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .pm-type-tag.intermediate {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .pm-type-tag.expert {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        /* ========================================
+           引用/口诀块
+           ======================================== */
+        
+        .quote-block {
+            background: linear-gradient(135deg, var(--stone-100) 0%, var(--stone-50) 100%);
+            border-left: 4px solid var(--stone-800);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+        
+        .quote-block-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .quote-block-content {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           标签/徽章
+           ======================================== */
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .tag.blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .tag.green {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .tag.amber {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        /* ========================================
+           分隔线
+           ======================================== */
+        
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: var(--space-10) 0;
+        }
+        
+        /* ========================================
+           底部
+           ======================================== */
+        
+        .page-footer {
+            margin-top: var(--space-12);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+        
+        /* ========================================
+           响应式
+           ======================================== */
+        
+        @media (max-width: 768px) {
+            .page-container {
+                padding: var(--space-5) var(--space-4);
+            }
+            
+            .page-title {
+                font-size: 32px;
+            }
+            
+            .strategy-card {
+                padding: var(--space-5);
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <a href="AI-UI-SOP-手册-10.0.html" class="back-button">
+                <span>←</span>
+                <span>返回主页</span>
+            </a>
+            <div class="breadcrumb">
+                <a href="AI-UI-SOP-手册-10.0.html">AI-UI SOP 手册</a>
+                <span> / </span>
+                <span>PRD 质量治理</span>
+            </div>
+        </nav>
+        
+        <!-- 页面标题 -->
+        <header class="page-header">
+            <h1 class="page-title">需求"洗白"策略</h1>
+            <p class="page-subtitle">如何把糊涂账变成精准指令 — 让 PRD 对人类友好，对 AI 也能理解</p>
+        </header>
+        
+        <!-- 核心理念 -->
+        <div class="core-concept">
+            <div class="core-concept-title">核心理念</div>
+            <div class="core-concept-main">🏗️ 建立"编译器"：AI 把 PM 说的话翻译成可执行的数据</div>
+            <p class="core-concept-desc">
+                PM 喜欢说「差不多」「大概」「你懂的」— 这些词语对人类来说充满了默契，但对 AI 来说等于编译报错。
+                我们需要在 PM 和 AI 之间建立一个"编译器"，将模糊的人话转换成精准的结构化数据。
+            </p>
+        </div>
+        
+        <!-- 策略一 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">1</div>
+                    <div>
+                        <h3 class="strategy-card-title">AI 引导式访谈</h3>
+                        <p class="strategy-card-subtitle">PM 说一句模糊需求 → AI 用"访谈问卷"逼出细节</p>
+                    </div>
+                </div>
+                
+                <div class="strategy-content">
+                    <h4>🎯 核心思路</h4>
+                    <p>不指望 PM 一次写清楚。AI 主动发问，一步步把答案"榨"出来，最终生成标准结构文档。</p>
+                    
+                    <h4>📋 流程</h4>
+                    <div class="flow-diagram">
+                        <div class="flow-step"><span class="icon">👤</span> PM 输入模糊需求</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🤖</span> Requirement Agent</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">❓</span> 引导式访谈问卷</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">📝</span> 输出结构化 PRD</div>
+                    </div>
+                    
+                    <h4>💡 Requirement Agent 示例 Prompt</h4>
+                    <div class="prompt-block">
+                        <div class="prompt-block-header">
+                            <span class="prompt-block-title">System Prompt</span>
+                        </div>
+                        <pre>你是一个需求分析 Agent，任务是帮助 PM 把模糊需求转成结构化 PRD。
+
+当 PM 给出需求描述后，你要：
+1. 识别出缺失的关键维度（交互流程、边界条件、状态变化、异常处理等）
+2. 生成一组针对性访谈问题（每次不超过 5 个）
+3. 根据 PM 的回答迭代追问，直到信息完整
+4. 最终输出标准格式 PRD，包含：
+   - 功能概述
+   - 用户故事
+   - 交互流程（Mermaid 流程图）
+   - 状态定义
+   - 边界条件与异常处理
+   - 验收标准
+
+注意：
+- 问题要具体、可选项化，降低 PM 回答难度
+- 如果 PM 说"随便"或"看着办"，给出合理默认值并确认</pre>
+                    </div>
+                    
+                    <h4>🔑 访谈问题示例</h4>
+                    <ul>
+                        <li><strong>交互流程</strong>：用户点击按钮后，下一步发生什么？是弹窗确认还是直接执行？</li>
+                        <li><strong>边界条件</strong>：列表最多显示多少条？超出后是分页还是无限滚动？</li>
+                        <li><strong>状态变化</strong>：提交成功后，按钮状态如何变化？需要 loading 吗？</li>
+                        <li><strong>异常处理</strong>：网络超时怎么办？显示什么提示？用户能重试吗？</li>
+                        <li><strong>权限控制</strong>：这个功能对所有用户可见吗？未登录用户看到什么？</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 策略二 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">2</div>
+                    <div>
+                        <h3 class="strategy-card-title">截图即协议</h3>
+                        <p class="strategy-card-subtitle">PM 截图画红圈 → AI 通过视觉识别推算规格</p>
+                    </div>
+                </div>
+                
+                <div class="strategy-content">
+                    <h4>🎯 核心思路</h4>
+                    <p>PM 最擅长的就是"我要这个效果"+ 一张截图。那我们就把截图当作"半成品合同"，AI 负责从图里"挖"出技术规格。</p>
+                    
+                    <h4>📋 流程</h4>
+                    <div class="flow-diagram">
+                        <div class="flow-step"><span class="icon">📸</span> PM 截图 + 红圈标注</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🔍</span> Vision AI 解析</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">📐</span> 推算尺寸/间距/颜色</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">✅</span> 生成规格清单 + 确认</div>
+                    </div>
+                    
+                    <h4>💡 Vision 解析 Prompt</h4>
+                    <div class="prompt-block">
+                        <div class="prompt-block-header">
+                            <span class="prompt-block-title">Vision Prompt</span>
+                        </div>
+                        <pre>分析这张 UI 截图，提取以下信息：
+
+1. **布局结构**：识别主要区块、层级关系
+2. **组件识别**：标注每个 UI 组件类型（按钮、输入框、卡片等）
+3. **视觉规格**（如果可推算）：
+   - 大致尺寸比例
+   - 间距关系（紧凑/宽松）
+   - 主色调、强调色
+   - 字体层级（标题/正文/辅助文字）
+4. **红圈标注区域**：PM 画圈的地方是重点关注区域，详细描述
+5. **交互暗示**：从视觉元素推断可能的交互行为
+
+输出格式：
+- 结构化 JSON 或 Markdown 表格
+- 附上不确定项，标记"需 PM 确认"</pre>
+                    </div>
+                    
+                    <h4>📌 最佳实践</h4>
+                    <ul>
+                        <li>让 PM 用红圈标出重点区域，AI 优先解析这些地方</li>
+                        <li>截图最好附带简短文字说明（哪怕一句话）</li>
+                        <li>解析结果生成后，让 PM 过一遍确认，形成"视觉合同"</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 策略三 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">3</div>
+                    <div>
+                        <h3 class="strategy-card-title">组件库"强行碰瓷"</h3>
+                        <p class="strategy-card-subtitle">PM 说的和该用的不一致时，AI 强制对齐组件库</p>
+                    </div>
+                </div>
+                
+                <div class="strategy-content">
+                    <h4>🎯 核心思路</h4>
+                    <p>当 PM 描述的 UI 和团队组件库里的标准组件有出入时，AI 主动"碰瓷"—— 把 PM 说的东西往组件库上靠，输出映射清单和差异报告。</p>
+                    
+                    <h4>📋 流程</h4>
+                    <div class="flow-diagram">
+                        <div class="flow-step"><span class="icon">💬</span> PM 描述 UI 需求</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🗂️</span> 匹配组件库</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">⚖️</span> 生成映射 + 差异报告</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🤝</span> PM 确认或调整</div>
+                    </div>
+                    
+                    <h4>💡 组件匹配 Prompt</h4>
+                    <div class="prompt-block">
+                        <div class="prompt-block-header">
+                            <span class="prompt-block-title">Component Mapping Prompt</span>
+                        </div>
+                        <pre>你是 UI 组件顾问，负责将 PM 的需求描述映射到团队组件库。
+
+输入：PM 的功能/界面描述
+输出：组件映射清单
+
+规则：
+1. 尽量使用组件库中已有的组件
+2. 如果没有完全匹配的组件，给出最接近的替代方案
+3. 明确标注需要定制开发的部分
+4. 输出差异报告，说明 PM 原始描述与推荐方案的区别
+
+输出格式：
+| PM 描述 | 推荐组件 | 匹配度 | 备注 |
+|---------|----------|--------|------|
+| "一个搜索框" | SearchInput | 100% | 直接使用 |
+| "带头像的列表" | AvatarList | 80% | 缺少在线状态，需扩展 |
+| "炫酷的动画按钮" | Button + Lottie | 60% | 需自定义动画，建议简化 |</pre>
+                    </div>
+                    
+                    <h4>🛡️ 价值</h4>
+                    <ul>
+                        <li><strong>减少返工</strong>：提前暴露 PM 期望与技术实现的差距</li>
+                        <li><strong>维护一致性</strong>：强制使用组件库，避免"野生组件"</li>
+                        <li><strong>知识沉淀</strong>：差异报告可以反哺组件库的迭代</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <div class="divider"></div>
+        
+        <!-- PM 分级 SOP 表 -->
+        <section class="strategy-section">
+            <h2 class="section-title">
+                <span class="emoji">📊</span>
+                PM 分级协作 SOP
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-6);">
+                不同类型的 PM 需要不同的协作策略。根据 PM 的需求表达能力，采用对应的处理流程。
+            </p>
+            
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>PM 类型</th>
+                            <th>特征</th>
+                            <th>协作策略</th>
+                            <th>AI 工具配置</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="pm-type-tag beginner">🌱 完全糊涂型</span>
+                            </td>
+                            <td>
+                                • 只有口头描述<br>
+                                • "你懂的"、"差不多就行"<br>
+                                • 无文档、无原型
+                            </td>
+                            <td>
+                                <strong>1. 强制访谈</strong>：启动 Requirement Agent<br>
+                                <strong>2. 截图征集</strong>：要求提供参考截图<br>
+                                <strong>3. 默认值确认</strong>：AI 给出默认方案让 PM 打勾
+                            </td>
+                            <td>
+                                <span class="tag amber">Requirement Agent</span><br>
+                                <span class="tag amber">Vision 解析</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="pm-type-tag intermediate">🌿 稍微能写型</span>
+                            </td>
+                            <td>
+                                • 有简单文档<br>
+                                • 但缺边界条件<br>
+                                • 有原型但粗糙
+                            </td>
+                            <td>
+                                <strong>1. 补全访谈</strong>：针对缺失维度提问<br>
+                                <strong>2. 组件映射</strong>：把原型往组件库上靠<br>
+                                <strong>3. 验收标准生成</strong>：AI 补充测试用例
+                            </td>
+                            <td>
+                                <span class="tag blue">组件映射器</span><br>
+                                <span class="tag blue">验收生成器</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="pm-type-tag expert">🌳 高手型</span>
+                            </td>
+                            <td>
+                                • PRD 完整清晰<br>
+                                • 有详细原型<br>
+                                • 主动标注边界
+                            </td>
+                            <td>
+                                <strong>1. 快速确认</strong>：AI 总结要点让 PM 复核<br>
+                                <strong>2. 直接执行</strong>：输入 IDE 启动开发<br>
+                                <strong>3. 差异审计</strong>：开发完成后比对原始需求
+                            </td>
+                            <td>
+                                <span class="tag green">PRD Parser</span><br>
+                                <span class="tag green">差异审计器</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 防呆口诀 -->
+        <div class="quote-block">
+            <div class="quote-block-title">🛡️ 防呆口诀</div>
+            <div class="quote-block-content">
+                他画图，你拍照；<br>
+                他说话，AI 报；<br>
+                他胡搞，你对标（组件库）。
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <footer class="page-footer">
+            <p>PRD 质量治理 — AI-UI SOP 手册子页</p>
+        </footer>
+    </div>
+</body>
+</html>
