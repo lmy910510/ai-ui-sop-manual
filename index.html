@@ -187,6 +187,89 @@
             </div>
         </div>
 
+        <!-- AI 模型族谱：UI 生成的四大引擎 -->
+        <div class="bg-white rounded-lg border border-stone-200 p-10">
+            <h3 class="text-xl font-bold text-stone-800 mb-3">
+                AI 模型族谱：UI 生成链路中的四大引擎
+            </h3>
+            <p class="text-stone-500 mb-8 leading-relaxed text-sm">
+                在完整的 AI-UI 生产链路中，不止一种模型在发挥作用。以下是当前与 UI 工程化最相关的四大模型家族，它们各自承担不同环节，协同构成了从"需求"到"像素"的完整管线。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- LLM -->
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-xs font-bold text-white bg-stone-700 px-2.5 py-1 rounded">LLM</span>
+                        <span class="text-sm font-semibold text-stone-800">大语言模型</span>
+                    </div>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-3">
+                        纯文本的自回归序列预测器。输入 Prompt，逐 Token 预测下一个最可能的字符，直至生成完整的代码片段。
+                    </p>
+                    <div class="text-xs text-stone-400 space-y-1.5">
+                        <p><strong class="text-stone-600">代表：</strong>GPT-4、Claude、DeepSeek、Qwen</p>
+                        <p><strong class="text-stone-600">在 UI 链路中的角色：</strong>将结构化规格翻译为 JSX / HTML / CSS 代码</p>
+                        <p><strong class="text-stone-600">核心局限：</strong>只懂文字，看不见图，没有空间坐标感</p>
+                    </div>
+                </div>
+
+                <!-- MLLM -->
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-xs font-bold text-white bg-stone-700 px-2.5 py-1 rounded">MLLM</span>
+                        <span class="text-sm font-semibold text-stone-800">多模态大语言模型</span>
+                    </div>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-3">
+                        在 LLM 基础上加装视觉编码器（ViT），能接收图像输入。把图片切成 Patch 编码为 Token，再与文字 Token 一起做概率预测。
+                    </p>
+                    <div class="text-xs text-stone-400 space-y-1.5">
+                        <p><strong class="text-stone-600">代表：</strong>GPT-4o、Claude 3.5 Sonnet、Gemini Pro Vision</p>
+                        <p><strong class="text-stone-600">在 UI 链路中的角色：</strong>看截图 / 设计稿 → 直接生成对应代码</p>
+                        <p><strong class="text-stone-600">核心局限：</strong>有视觉输入但无空间坐标系，像素级还原靠猜</p>
+                    </div>
+                </div>
+
+                <!-- Diffusion Model -->
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-xs font-bold text-white bg-stone-700 px-2.5 py-1 rounded">Diffusion</span>
+                        <span class="text-sm font-semibold text-stone-800">扩散模型</span>
+                    </div>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-3">
+                        从纯噪声出发，通过反复"去噪"逐步还原出清晰图像。与 LLM 的"逐字写"不同，它是"逐步画"——每一步让图像从模糊变清晰。
+                    </p>
+                    <div class="text-xs text-stone-400 space-y-1.5">
+                        <p><strong class="text-stone-600">代表：</strong>Stable Diffusion、DALL·E 3、Midjourney</p>
+                        <p><strong class="text-stone-600">在 UI 链路中的角色：</strong>生成视觉概念图、风格探索、UI 视觉稿</p>
+                        <p><strong class="text-stone-600">核心局限：</strong>输出是像素图而非可编辑代码，无法直接用于工程</p>
+                    </div>
+                </div>
+
+                <!-- Agentic AI -->
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-xs font-bold text-white bg-stone-700 px-2.5 py-1 rounded">Agent</span>
+                        <span class="text-sm font-semibold text-stone-800">智能体（Agentic AI）</span>
+                    </div>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-3">
+                        不是一种新模型，而是 LLM 的"升级用法"：让模型具备规划、工具调用和自我纠错的循环能力，从"回答问题"进化为"自主完成任务"。
+                    </p>
+                    <div class="text-xs text-stone-400 space-y-1.5">
+                        <p><strong class="text-stone-600">代表：</strong>Devin、Claude Code、OpenAI Codex (Agent)</p>
+                        <p><strong class="text-stone-600">在 UI 链路中的角色：</strong>自主完成"读规格 → 写代码 → 跑测试 → 修 Bug"多步链路</p>
+                        <p><strong class="text-stone-600">核心局限：</strong>规划链越长越容易偏离，仍需 HITL 检查点介入</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 协作关系说明 -->
+            <div class="bg-stone-100/60 rounded-lg p-5">
+                <p class="text-sm text-stone-700 leading-relaxed">
+                    <strong>它们如何协作？</strong> 在实际的 AI-UI 生产流程中，这四类能力往往串联使用：<strong class="text-stone-900">Diffusion 模型</strong>负责前期视觉探索出图 → <strong class="text-stone-900">MLLM</strong> 读取设计稿理解视觉意图 → <strong class="text-stone-900">LLM</strong> 将意图转译为工程代码 → <strong class="text-stone-900">Agent</strong> 自主串联整个流程并完成迭代修复。理解每种模型的能力边界，才能在正确的环节选择正确的工具。
+                </p>
+            </div>
+        </div>
+
         <!-- MLLM脑图 -->
         <div class="bg-stone-50 p-16 rounded-lg flex flex-col items-center">
             <div class="diagram-node text-center w-80 connector-down border-stone-800 border-2">
