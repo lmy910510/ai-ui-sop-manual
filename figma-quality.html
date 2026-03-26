@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma 质量治理 - AI-UI SOP 手册</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Noto Serif SC', serif; }
+        .governance-card {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        .governance-number {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .rule-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid;
+        }
+        .rule-must {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+        .rule-should {
+            background: #fffbeb;
+            color: #d97706;
+            border-color: #fde68a;
+        }
+        .rule-good {
+            background: #f0fdf4;
+            color: #16a34a;
+            border-color: #bbf7d0;
+        }
+        .mapping-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased">
+    <!-- 顶部导航 -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 border-b border-stone-200">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="AI-UI-SOP-手册-10.0.html" class="flex items-center gap-2 text-stone-600 hover:text-stone-900 transition-colors">
+                <span>←</span>
+                <span class="text-sm font-medium">返回主页</span>
+            </a>
+            <span class="text-xs text-stone-400">Figma 质量治理</span>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="max-w-5xl mx-auto px-6 pt-28 pb-20 space-y-16">
+        <!-- 标题区 -->
+        <header class="text-center space-y-6">
+            <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-medium">
+                <span>🎨</span> 路径 B 配套治理
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-900 leading-tight">
+                Figma 治理规约
+            </h1>
+            <p class="text-xl text-stone-500 max-w-2xl mx-auto leading-relaxed">
+                从"自由画布"到"工程声明文件"
+            </p>
+        </header>
+
+        <!-- 核心理念 -->
+        <section class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-10 text-white">
+            <div class="max-w-3xl mx-auto text-center space-y-6">
+                <h2 class="text-2xl font-bold">🧠 核心共识</h2>
+                <p class="text-3xl font-bold text-slate-100 leading-snug">
+                    "AI 不看像素，看的是<span class="text-amber-400">图层树</span>"
+                </p>
+                <p class="text-slate-300 leading-relaxed">
+                    设计稿的深度决定了代码的高度。如果设计师画出来的只是"一张图"，那 AI 给你的是"一段代码"；<br>
+                    如果是一套"结构"，那 AI 给你的是"一个可以直接上线的工程"。
+                </p>
+            </div>
+        </section>
+
+        <!-- 治理规约 1：结构卫生 -->
+        <section class="space-y-8">
+            <div class="governance-card">
+                <div class="governance-number">1</div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-stone-900 mb-2">结构卫生</h3>
+                    <p class="text-stone-500">图层树即 DOM 树，混乱的图层 = 混乱的代码</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-stone-200 p-8 space-y-6">
+                <!-- 语义化命名 -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-must">🚫 禁止</span>
+                        <h4 class="font-bold text-stone-800">语义化命名</h4>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <p class="text-xs text-red-600 font-bold mb-2">❌ 错误示例</p>
+                            <code class="text-sm text-red-700">Frame 1024, Group 47, Rectangle 89</code>
+                        </div>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <p class="text-xs text-green-600 font-bold mb-2">✅ 正确示例</p>
+                            <code class="text-sm text-green-700">Header, NavBar, UserAvatar, LoginForm</code>
+                        </div>
+                    </div>
+                    <p class="text-sm text-stone-500">必须使用语义化英文命名，让 AI 能理解每个图层的业务含义。</p>
+                </div>
+
+                <!-- 消除冗余层级 -->
+                <div class="space-y-4 pt-6 border-t border-stone-100">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-should">⚠️ 应当</span>
+                        <h4 class="font-bold text-stone-800">消除冗余层级</h4>
+                    </div>
+                    <p class="text-sm text-stone-500">
+                        尽量减少不必要的嵌套，能用一层 Auto Layout 解决的绝不包两层 Frame。<br>
+                        过深的嵌套会导致 AI 生成冗余的 <code class="bg-stone-100 px-1 rounded">&lt;div&gt;</code> 包裹。
+                    </p>
+                </div>
+
+                <!-- Slot 占位逻辑 -->
+                <div class="space-y-4 pt-6 border-t border-stone-100">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-good">💡 建议</span>
+                        <h4 class="font-bold text-stone-800">Slot 占位逻辑</h4>
+                    </div>
+                    <p class="text-sm text-stone-500">
+                        对内容可变区域使用"占位组件"，并在命名中标记（如 <code class="bg-stone-100 px-1 rounded">Slot_ContentArea</code>），方便 AI 生成可替换的代码逻辑。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 治理规约 2：物理约束 -->
+        <section class="space-y-8">
+            <div class="governance-card">
+                <div class="governance-number">2</div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-stone-900 mb-2">物理约束：强制 Auto Layout</h3>
+                    <p class="text-stone-500">Figma Auto Layout = CSS Flexbox，没有 Auto Layout 只能用 absolute 定位</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-stone-200 p-8">
+                <p class="text-sm text-stone-600 mb-6">若不设 Auto Layout，AI 只能用 <code class="bg-stone-100 px-1 rounded">position: absolute</code> 定位，导致代码难以维护、无法响应式。</p>
+                
+                <div class="grid md:grid-cols-3 gap-4 items-center">
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-center">
+                        <p class="text-xs text-slate-500 mb-2">Figma</p>
+                        <p class="font-bold text-slate-800">Fill Container</p>
+                    </div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5 text-center">
+                        <p class="text-xs text-emerald-600 mb-2">CSS</p>
+                        <code class="font-bold text-emerald-700">flex: 1</code>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 items-center mt-4">
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-center">
+                        <p class="text-xs text-slate-500 mb-2">Figma</p>
+                        <p class="font-bold text-slate-800">Hug Contents</p>
+                    </div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5 text-center">
+                        <p class="text-xs text-emerald-600 mb-2">CSS</p>
+                        <code class="font-bold text-emerald-700">width: fit-content</code>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <p class="text-sm text-amber-800">
+                        <strong>⚠️ 警告：</strong>没有 Auto Layout 的 Frame 将被 AI 识别为"自由定位容器"，生成大量 <code class="bg-amber-100 px-1 rounded">top: 47px; left: 128px;</code> 这样的硬编码样式。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 治理规约 3：组件主权 -->
+        <section class="space-y-8">
+            <div class="governance-card">
+                <div class="governance-number">3</div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-stone-900 mb-2">组件主权</h3>
+                    <p class="text-stone-500">白名单机制 + 禁止 Detach，确保组件来源可控</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-stone-200 p-8 space-y-6">
+                <!-- 白名单机制 -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-must">🔒 强制</span>
+                        <h4 class="font-bold text-stone-800">白名单机制</h4>
+                    </div>
+                    <p class="text-sm text-stone-500">
+                        AI 仅识别来自指定组件库（如 <code class="bg-stone-100 px-1 rounded">TAI_UI_Library</code>）的组件。<br>
+                        非白名单组件将被标记为"未知元素"，需人工确认。
+                    </p>
+                </div>
+
+                <!-- 禁止 Detach -->
+                <div class="space-y-4 pt-6 border-t border-stone-100">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-must">🚫 禁止</span>
+                        <h4 class="font-bold text-stone-800">禁止 Detach（打散）</h4>
+                    </div>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <p class="text-sm text-red-700">
+                            <strong>❌ 绝对禁止</strong>私自打散组件后手动修改，否则 AI 会将其视为"脏数据"，丢失组件语义信息。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 参数映射 -->
+                <div class="space-y-4 pt-6 border-t border-stone-100">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-good">💡 建议</span>
+                        <h4 class="font-bold text-stone-800">参数映射 (Properties → Props)</h4>
+                    </div>
+                    <p class="text-sm text-stone-500">
+                        利用 Figma 的 Properties 功能定义组件变体，让 AI 能直接生成对应的组件 Props。
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-4 items-center mt-3">
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-center">
+                            <p class="text-xs text-slate-500 mb-1">Figma Property</p>
+                            <code class="text-sm font-bold text-slate-700">variant="primary"</code>
+                        </div>
+                        <div class="mapping-arrow">→</div>
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-center">
+                            <p class="text-xs text-emerald-600 mb-1">React Props</p>
+                            <code class="text-sm font-bold text-emerald-700">&lt;Button variant="primary"&gt;</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 治理规约 4：变量同步 -->
+        <section class="space-y-8">
+            <div class="governance-card">
+                <div class="governance-number">4</div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-stone-900 mb-2">变量同步</h3>
+                    <p class="text-stone-500">Figma Variables = tokens.json，设计与代码数据源对齐</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-stone-200 p-8 space-y-6">
+                <!-- 全量引用变量 -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-must">🔒 强制</span>
+                        <h4 class="font-bold text-stone-800">全量引用变量</h4>
+                    </div>
+                    <p class="text-sm text-stone-500 mb-4">
+                        颜色、圆角、间距等<strong>必须</strong>使用 Figma Variables，实现与代码侧（tokens.json）的数据源对齐。
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <p class="text-xs text-red-600 font-bold mb-2">❌ 硬编码</p>
+                            <code class="text-sm text-red-700">#3B82F6</code>
+                        </div>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <p class="text-xs text-green-600 font-bold mb-2">✅ 引用变量</p>
+                            <code class="text-sm text-green-700">$color-primary-500</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MCP 互传协议 -->
+                <div class="space-y-4 pt-6 border-t border-stone-100">
+                    <div class="flex items-center gap-3">
+                        <span class="rule-tag rule-good">🔄 协议</span>
+                        <h4 class="font-bold text-stone-800">MCP 互传协议</h4>
+                    </div>
+                    <p class="text-sm text-stone-500">
+                        确保设计稿与代码库之间的变量修改能<strong>双向同步</strong>：
+                    </p>
+                    <div class="bg-slate-50 rounded-lg p-5 mt-3">
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                    <span class="text-2xl">🎨</span>
+                                </div>
+                                <p class="font-medium text-stone-700">Figma</p>
+                            </div>
+                            <div class="flex-1 flex items-center justify-center gap-2 text-stone-400">
+                                <span>←</span>
+                                <span class="text-xs bg-stone-200 px-2 py-1 rounded">MCP</span>
+                                <span>→</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                    <span class="text-2xl">💻</span>
+                                </div>
+                                <p class="font-medium text-stone-700">Code</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 团队治理方案 -->
+        <section class="space-y-8">
+            <h2 class="text-2xl font-bold text-stone-900">🛠️ 团队治理方案</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- 自动化 Lint 审计 -->
+                <div class="bg-white rounded-xl border border-stone-200 p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <span class="text-xl">🔍</span>
+                        </div>
+                        <h4 class="font-bold text-stone-800">自动化 Lint 审计</h4>
+                    </div>
+                    <p class="text-sm text-stone-500 mb-4">在转代码前自动检查：</p>
+                    <ul class="text-sm text-stone-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-400">▸</span>
+                            <span>图层命名规范</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-400">▸</span>
+                            <span>间距使用变量</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-400">▸</span>
+                            <span>颜色引用检查</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-400">▸</span>
+                            <span>组件来源白名单</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 协作循环 -->
+                <div class="bg-white rounded-xl border border-stone-200 p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                            <span class="text-xl">🔄</span>
+                        </div>
+                        <h4 class="font-bold text-stone-800">Figma ↔ MCP 协作循环</h4>
+                    </div>
+                    <p class="text-sm text-stone-500 mb-4">建立闭环工作流：</p>
+                    <div class="text-sm text-stone-600 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                            <span>设计输出</span>
+                        </div>
+                        <div class="flex items-center gap-2 ml-3 text-stone-400">↓</div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                            <span>AI 生成代码</span>
+                        </div>
+                        <div class="flex items-center gap-2 ml-3 text-stone-400">↓</div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                            <span>代码精修</span>
+                        </div>
+                        <div class="flex items-center gap-2 ml-3 text-stone-400">↓</div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                            <span>反向回写设计稿</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 检查清单 -->
+        <section class="bg-stone-100 rounded-2xl p-8">
+            <h3 class="text-xl font-bold text-stone-900 mb-6 text-center">✅ Figma 交付前检查清单</h3>
+            <div class="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
+                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
+                    <span class="text-sm text-stone-700">所有图层使用语义化英文命名</span>
+                </label>
+                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
+                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
+                    <span class="text-sm text-stone-700">所有容器设置 Auto Layout</span>
+                </label>
+                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
+                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
+                    <span class="text-sm text-stone-700">颜色/间距/圆角引用 Variables</span>
+                </label>
+                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
+                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
+                    <span class="text-sm text-stone-700">组件来自白名单库</span>
+                </label>
+                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
+                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
+                    <span class="text-sm text-stone-700">无 Detach 的组件实例</span>
+                </label>
+                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
+                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
+                    <span class="text-sm text-stone-700">图层树深度 ≤ 5 层</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- 底部口诀 -->
+        <section class="text-center py-10">
+            <div class="inline-block bg-gradient-to-r from-slate-800 to-slate-900 text-white px-10 py-6 rounded-2xl">
+                <p class="text-lg font-bold mb-2">🎯 Figma 治理口诀</p>
+                <p class="text-xl text-slate-200">"命名要语义，布局要弹性，组件要纯净，变量要同步。"</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="border-t border-stone-200 py-8 text-center text-sm text-stone-400">
+        <p>AI-UI SOP 手册 · Figma 质量治理</p>
+    </footer>
+</body>
+</html>
