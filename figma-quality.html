@@ -3,442 +3,934 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figma 质量治理 - AI-UI SOP 手册</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Figma 治理规约 — 从"自由画布"到"工程声明文件"</title>
     <style>
-        body { font-family: 'Inter', 'Noto Serif SC', serif; }
-        .governance-card {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
+        /* ========================================
+           Notion-Style Design System (Stone)
+           ======================================== */
+        
+        :root {
+            /* Stone 色板 */
+            --stone-50: #fafaf9;
+            --stone-100: #f5f5f4;
+            --stone-200: #e7e5e4;
+            --stone-300: #d6d3d1;
+            --stone-400: #a8a29e;
+            --stone-500: #78716c;
+            --stone-600: #57534e;
+            --stone-700: #44403c;
+            --stone-800: #292524;
+            --stone-900: #1c1917;
+            
+            /* 语义色 */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--stone-50);
+            --bg-tertiary: var(--stone-100);
+            --text-primary: var(--stone-800);
+            --text-secondary: var(--stone-600);
+            --text-tertiary: var(--stone-500);
+            --border-color: var(--stone-200);
+            --border-light: var(--stone-100);
+            
+            /* 强调色 */
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            
+            /* 间距系统 */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            
+            /* 圆角 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            
+            /* 字体 */
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SF Mono", "Fira Code", "Monaco", "Inconsolata", monospace;
         }
-        .governance-number {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            color: white;
-            border-radius: 12px;
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ========================================
+           布局
+           ======================================== */
+        
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-6);
+        }
+        
+        /* ========================================
+           顶部导航
+           ======================================== */
+        
+        .top-nav {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
+            gap: var(--space-4);
+            margin-bottom: var(--space-10);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--border-light);
         }
-        .rule-tag {
+        
+        .back-button {
             display: inline-flex;
             align-items: center;
-            gap: 0.25rem;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            border: 1px solid;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.15s ease;
         }
-        .rule-must {
-            background: #fef2f2;
-            color: #dc2626;
-            border-color: #fecaca;
+        
+        .back-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
-        .rule-should {
-            background: #fffbeb;
-            color: #d97706;
-            border-color: #fde68a;
+        
+        .breadcrumb {
+            color: var(--text-tertiary);
+            font-size: 14px;
         }
-        .rule-good {
-            background: #f0fdf4;
-            color: #16a34a;
-            border-color: #bbf7d0;
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
         }
-        .mapping-arrow {
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========================================
+           页面标题
+           ======================================== */
+        
+        .page-header {
+            margin-bottom: var(--space-12);
+        }
+        
+        .page-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            letter-spacing: -0.02em;
+        }
+        
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 700px;
+        }
+        
+        /* ========================================
+           核心理念卡片
+           ======================================== */
+        
+        .core-concept {
+            background: linear-gradient(135deg, var(--stone-800) 0%, var(--stone-900) 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-10);
+            color: white;
+        }
+        
+        .core-concept-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--stone-400);
+            margin-bottom: var(--space-3);
+        }
+        
+        .core-concept-main {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+        
+        .core-concept-desc {
+            color: var(--stone-300);
+            line-height: 1.7;
+        }
+        
+        .core-concept-highlight {
+            color: #fbbf24;
+            font-weight: 700;
+        }
+        
+        /* ========================================
+           策略/规约卡片
+           ======================================== */
+        
+        .strategy-section {
+            margin-bottom: var(--space-10);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .section-title .emoji {
+            font-size: 28px;
+        }
+        
+        .strategy-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-6);
+        }
+        
+        .strategy-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .strategy-number {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #94a3b8;
-            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: var(--stone-800);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .strategy-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .strategy-card-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .strategy-content {
+            margin-top: var(--space-6);
+        }
+        
+        .strategy-content h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-3);
+            margin-top: var(--space-5);
+        }
+        
+        .strategy-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .strategy-content p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+            line-height: 1.7;
+        }
+        
+        .strategy-content ul {
+            margin-left: var(--space-5);
+            color: var(--text-secondary);
+        }
+        
+        .strategy-content li {
+            margin-bottom: var(--space-2);
+        }
+        
+        /* ========================================
+           对比块（正误对比）
+           ======================================== */
+        
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin: var(--space-4) 0;
+        }
+        
+        .compare-bad {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+        }
+        
+        .compare-bad .compare-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #dc2626;
+            margin-bottom: var(--space-2);
+        }
+        
+        .compare-good {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+        }
+        
+        .compare-good .compare-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: var(--space-2);
+        }
+        
+        .compare-code {
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+        
+        .compare-bad .compare-code {
+            color: #b91c1c;
+        }
+        
+        .compare-good .compare-code {
+            color: #15803d;
+        }
+        
+        /* ========================================
+           映射表
+           ======================================== */
+        
+        .mapping-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin: var(--space-4) 0;
+        }
+        
+        .mapping-table th,
+        .mapping-table td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        
+        .mapping-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        
+        .mapping-table td {
+            color: var(--text-secondary);
+        }
+        
+        .mapping-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .mapping-table tr:hover td {
+            background: var(--bg-secondary);
+        }
+        
+        .mapping-arrow-cell {
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 18px;
+        }
+        
+        .code-inline {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+        }
+        
+        /* ========================================
+           警告/提示块
+           ======================================== */
+        
+        .callout {
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin: var(--space-4) 0;
+        }
+        
+        .callout-warning {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+        }
+        
+        .callout-warning p {
+            color: #92400e;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .callout-danger {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        
+        .callout-danger p {
+            color: #991b1b;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        /* ========================================
+           标签/徽章
+           ======================================== */
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .tag.red {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .tag.amber {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .tag.green {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        /* ========================================
+           流程图
+           ======================================== */
+        
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin: var(--space-5) 0;
+            padding: var(--space-4);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .flow-step .icon {
+            font-size: 16px;
+        }
+        
+        .flow-arrow {
+            color: var(--text-tertiary);
+            font-size: 18px;
+        }
+        
+        /* ========================================
+           检查清单
+           ======================================== */
+        
+        .checklist-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+        
+        .checklist-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-6);
+        }
+        
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        
+        .checklist-item:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        
+        .checklist-item span {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           引用/口诀块
+           ======================================== */
+        
+        .quote-block {
+            background: linear-gradient(135deg, var(--stone-100) 0%, var(--stone-50) 100%);
+            border-left: 4px solid var(--stone-800);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+        
+        .quote-block-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .quote-block-content {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           分隔线
+           ======================================== */
+        
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: var(--space-10) 0;
+        }
+        
+        /* ========================================
+           底部
+           ======================================== */
+        
+        .page-footer {
+            margin-top: var(--space-12);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+        
+        /* ========================================
+           响应式
+           ======================================== */
+        
+        @media (max-width: 768px) {
+            .page-container {
+                padding: var(--space-5) var(--space-4);
+            }
+            
+            .page-title {
+                font-size: 32px;
+            }
+            
+            .strategy-card {
+                padding: var(--space-5);
+            }
+            
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
         }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800 antialiased">
-    <!-- 顶部导航 -->
-    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 border-b border-stone-200">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="AI-UI-SOP-手册-10.0.html" class="flex items-center gap-2 text-stone-600 hover:text-stone-900 transition-colors">
+<body>
+    <div class="page-container">
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <a href="AI-UI-SOP-手册-10.0.html" class="back-button">
                 <span>←</span>
-                <span class="text-sm font-medium">返回主页</span>
+                <span>返回主页</span>
             </a>
-            <span class="text-xs text-stone-400">Figma 质量治理</span>
-        </div>
-    </nav>
-
-    <!-- 主内容区 -->
-    <main class="max-w-5xl mx-auto px-6 pt-28 pb-20 space-y-16">
-        <!-- 标题区 -->
-        <header class="text-center space-y-6">
-            <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-medium">
-                <span>🎨</span> 路径 B 配套治理
+            <div class="breadcrumb">
+                <a href="AI-UI-SOP-手册-10.0.html">AI-UI SOP 手册</a>
+                <span> / </span>
+                <span>Figma 质量治理</span>
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-stone-900 leading-tight">
-                Figma 治理规约
-            </h1>
-            <p class="text-xl text-stone-500 max-w-2xl mx-auto leading-relaxed">
-                从"自由画布"到"工程声明文件"
-            </p>
+        </nav>
+        
+        <!-- 页面标题 -->
+        <header class="page-header">
+            <h1 class="page-title">Figma 治理规约</h1>
+            <p class="page-subtitle">从"自由画布"到"工程声明文件" — 让设计稿成为 AI 的可执行蓝图</p>
         </header>
-
+        
         <!-- 核心理念 -->
-        <section class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-10 text-white">
-            <div class="max-w-3xl mx-auto text-center space-y-6">
-                <h2 class="text-2xl font-bold">🧠 核心共识</h2>
-                <p class="text-3xl font-bold text-slate-100 leading-snug">
-                    "AI 不看像素，看的是<span class="text-amber-400">图层树</span>"
-                </p>
-                <p class="text-slate-300 leading-relaxed">
-                    设计稿的深度决定了代码的高度。如果设计师画出来的只是"一张图"，那 AI 给你的是"一段代码"；<br>
-                    如果是一套"结构"，那 AI 给你的是"一个可以直接上线的工程"。
-                </p>
-            </div>
-        </section>
-
-        <!-- 治理规约 1：结构卫生 -->
-        <section class="space-y-8">
-            <div class="governance-card">
-                <div class="governance-number">1</div>
-                <div class="flex-1">
-                    <h3 class="text-2xl font-bold text-stone-900 mb-2">结构卫生</h3>
-                    <p class="text-stone-500">图层树即 DOM 树，混乱的图层 = 混乱的代码</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl border border-stone-200 p-8 space-y-6">
-                <!-- 语义化命名 -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-must">🚫 禁止</span>
-                        <h4 class="font-bold text-stone-800">语义化命名</h4>
+        <div class="core-concept">
+            <div class="core-concept-title">核心共识</div>
+            <div class="core-concept-main">🎨 AI 不看像素，看的是<span class="core-concept-highlight">图层树</span></div>
+            <p class="core-concept-desc">
+                设计稿的深度决定了代码的高度。如果设计师画出来的只是"一张图"，那 AI 给你的是"一段代码"；
+                如果是一套"结构"，那 AI 给你的是"一个可以直接上线的工程"。
+            </p>
+        </div>
+        
+        <!-- 规约一：结构卫生 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">1</div>
+                    <div>
+                        <h3 class="strategy-card-title">结构卫生</h3>
+                        <p class="strategy-card-subtitle">图层树即 DOM 树 — 混乱的图层 = 混乱的代码</p>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                            <p class="text-xs text-red-600 font-bold mb-2">❌ 错误示例</p>
-                            <code class="text-sm text-red-700">Frame 1024, Group 47, Rectangle 89</code>
-                        </div>
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                            <p class="text-xs text-green-600 font-bold mb-2">✅ 正确示例</p>
-                            <code class="text-sm text-green-700">Header, NavBar, UserAvatar, LoginForm</code>
-                        </div>
-                    </div>
-                    <p class="text-sm text-stone-500">必须使用语义化英文命名，让 AI 能理解每个图层的业务含义。</p>
                 </div>
-
-                <!-- 消除冗余层级 -->
-                <div class="space-y-4 pt-6 border-t border-stone-100">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-should">⚠️ 应当</span>
-                        <h4 class="font-bold text-stone-800">消除冗余层级</h4>
-                    </div>
-                    <p class="text-sm text-stone-500">
-                        尽量减少不必要的嵌套，能用一层 Auto Layout 解决的绝不包两层 Frame。<br>
-                        过深的嵌套会导致 AI 生成冗余的 <code class="bg-stone-100 px-1 rounded">&lt;div&gt;</code> 包裹。
-                    </p>
-                </div>
-
-                <!-- Slot 占位逻辑 -->
-                <div class="space-y-4 pt-6 border-t border-stone-100">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-good">💡 建议</span>
-                        <h4 class="font-bold text-stone-800">Slot 占位逻辑</h4>
-                    </div>
-                    <p class="text-sm text-stone-500">
-                        对内容可变区域使用"占位组件"，并在命名中标记（如 <code class="bg-stone-100 px-1 rounded">Slot_ContentArea</code>），方便 AI 生成可替换的代码逻辑。
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 治理规约 2：物理约束 -->
-        <section class="space-y-8">
-            <div class="governance-card">
-                <div class="governance-number">2</div>
-                <div class="flex-1">
-                    <h3 class="text-2xl font-bold text-stone-900 mb-2">物理约束：强制 Auto Layout</h3>
-                    <p class="text-stone-500">Figma Auto Layout = CSS Flexbox，没有 Auto Layout 只能用 absolute 定位</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl border border-stone-200 p-8">
-                <p class="text-sm text-stone-600 mb-6">若不设 Auto Layout，AI 只能用 <code class="bg-stone-100 px-1 rounded">position: absolute</code> 定位，导致代码难以维护、无法响应式。</p>
                 
-                <div class="grid md:grid-cols-3 gap-4 items-center">
-                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-center">
-                        <p class="text-xs text-slate-500 mb-2">Figma</p>
-                        <p class="font-bold text-slate-800">Fill Container</p>
+                <div class="strategy-content">
+                    <h4>🚫 语义化命名（强制）</h4>
+                    <p>禁止无意义命名，必须使用语义化英文命名，让 AI 能理解每个图层的业务含义。</p>
+                    
+                    <div class="compare-grid">
+                        <div class="compare-bad">
+                            <div class="compare-label">❌ 错误</div>
+                            <div class="compare-code">Frame 1024<br>Group 47<br>Rectangle 89</div>
+                        </div>
+                        <div class="compare-good">
+                            <div class="compare-label">✅ 正确</div>
+                            <div class="compare-code">Header<br>NavBar<br>UserAvatar</div>
+                        </div>
                     </div>
-                    <div class="mapping-arrow">→</div>
-                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5 text-center">
-                        <p class="text-xs text-emerald-600 mb-2">CSS</p>
-                        <code class="font-bold text-emerald-700">flex: 1</code>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-4 items-center mt-4">
-                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-center">
-                        <p class="text-xs text-slate-500 mb-2">Figma</p>
-                        <p class="font-bold text-slate-800">Hug Contents</p>
-                    </div>
-                    <div class="mapping-arrow">→</div>
-                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5 text-center">
-                        <p class="text-xs text-emerald-600 mb-2">CSS</p>
-                        <code class="font-bold text-emerald-700">width: fit-content</code>
-                    </div>
-                </div>
-
-                <div class="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
-                    <p class="text-sm text-amber-800">
-                        <strong>⚠️ 警告：</strong>没有 Auto Layout 的 Frame 将被 AI 识别为"自由定位容器"，生成大量 <code class="bg-amber-100 px-1 rounded">top: 47px; left: 128px;</code> 这样的硬编码样式。
-                    </p>
+                    
+                    <h4>⚠️ 消除冗余层级</h4>
+                    <p>尽量减少不必要的嵌套，能用一层 Auto Layout 解决的绝不包两层 Frame。
+                    过深的嵌套会导致 AI 生成冗余的 <code class="code-inline">&lt;div&gt;</code> 包裹。</p>
+                    
+                    <h4>💡 Slot 占位逻辑</h4>
+                    <p>对内容可变区域使用"占位组件"，并在命名中标记（如 <code class="code-inline">Slot_ContentArea</code>），方便 AI 生成可替换的代码逻辑。</p>
+                    
+                    <h4>📐 图层树 ≈ DOM 树</h4>
+                    <p>保持视觉层级与代码结构一致。图层树的父子关系应直接映射为 HTML 的嵌套关系。</p>
                 </div>
             </div>
         </section>
-
-        <!-- 治理规约 3：组件主权 -->
-        <section class="space-y-8">
-            <div class="governance-card">
-                <div class="governance-number">3</div>
-                <div class="flex-1">
-                    <h3 class="text-2xl font-bold text-stone-900 mb-2">组件主权</h3>
-                    <p class="text-stone-500">白名单机制 + 禁止 Detach，确保组件来源可控</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl border border-stone-200 p-8 space-y-6">
-                <!-- 白名单机制 -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-must">🔒 强制</span>
-                        <h4 class="font-bold text-stone-800">白名单机制</h4>
-                    </div>
-                    <p class="text-sm text-stone-500">
-                        AI 仅识别来自指定组件库（如 <code class="bg-stone-100 px-1 rounded">TAI_UI_Library</code>）的组件。<br>
-                        非白名单组件将被标记为"未知元素"，需人工确认。
-                    </p>
-                </div>
-
-                <!-- 禁止 Detach -->
-                <div class="space-y-4 pt-6 border-t border-stone-100">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-must">🚫 禁止</span>
-                        <h4 class="font-bold text-stone-800">禁止 Detach（打散）</h4>
-                    </div>
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                        <p class="text-sm text-red-700">
-                            <strong>❌ 绝对禁止</strong>私自打散组件后手动修改，否则 AI 会将其视为"脏数据"，丢失组件语义信息。
-                        </p>
+        
+        <!-- 规约二：物理约束 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">2</div>
+                    <div>
+                        <h3 class="strategy-card-title">物理约束：强制 Auto Layout</h3>
+                        <p class="strategy-card-subtitle">Figma Auto Layout = CSS Flexbox — 没 Auto Layout 就等着 absolute 定位吧</p>
                     </div>
                 </div>
-
-                <!-- 参数映射 -->
-                <div class="space-y-4 pt-6 border-t border-stone-100">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-good">💡 建议</span>
-                        <h4 class="font-bold text-stone-800">参数映射 (Properties → Props)</h4>
-                    </div>
-                    <p class="text-sm text-stone-500">
-                        利用 Figma 的 Properties 功能定义组件变体，让 AI 能直接生成对应的组件 Props。
-                    </p>
-                    <div class="grid md:grid-cols-3 gap-4 items-center mt-3">
-                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-center">
-                            <p class="text-xs text-slate-500 mb-1">Figma Property</p>
-                            <code class="text-sm font-bold text-slate-700">variant="primary"</code>
-                        </div>
-                        <div class="mapping-arrow">→</div>
-                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-center">
-                            <p class="text-xs text-emerald-600 mb-1">React Props</p>
-                            <code class="text-sm font-bold text-emerald-700">&lt;Button variant="primary"&gt;</code>
-                        </div>
+                
+                <div class="strategy-content">
+                    <h4>🔗 映射关系</h4>
+                    <p>明确 Figma 布局属性到 CSS 的对应关系：</p>
+                    
+                    <table class="mapping-table">
+                        <thead>
+                            <tr>
+                                <th>Figma 属性</th>
+                                <th></th>
+                                <th>CSS 等价</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="code-inline">Auto Layout</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">display: flex</code></td>
+                            </tr>
+                            <tr>
+                                <td><code class="code-inline">Fill Container</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">flex: 1</code></td>
+                            </tr>
+                            <tr>
+                                <td><code class="code-inline">Hug Contents</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">width: fit-content</code></td>
+                            </tr>
+                            <tr>
+                                <td><code class="code-inline">Fixed</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">width: 320px</code>（硬编码）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="callout callout-warning">
+                        <p><strong>⚠️ 警告：</strong>没有 Auto Layout 的 Frame 将被 AI 识别为"自由定位容器"，生成大量 <code class="code-inline">top: 47px; left: 128px;</code> 这样的硬编码样式。</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- 治理规约 4：变量同步 -->
-        <section class="space-y-8">
-            <div class="governance-card">
-                <div class="governance-number">4</div>
-                <div class="flex-1">
-                    <h3 class="text-2xl font-bold text-stone-900 mb-2">变量同步</h3>
-                    <p class="text-stone-500">Figma Variables = tokens.json，设计与代码数据源对齐</p>
+        
+        <!-- 规约三：组件主权 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">3</div>
+                    <div>
+                        <h3 class="strategy-card-title">组件主权</h3>
+                        <p class="strategy-card-subtitle">白名单机制 + 禁止 Detach — 确保组件来源可控</p>
+                    </div>
+                </div>
+                
+                <div class="strategy-content">
+                    <h4>🔒 白名单机制（强制）</h4>
+                    <p>AI 仅识别来自指定组件库（如 <code class="code-inline">TAI_UI_Library</code>）的组件。非白名单组件将被标记为"未知元素"，需人工确认。</p>
+                    
+                    <h4>🚫 禁止 Detach（打散）</h4>
+                    <div class="callout callout-danger">
+                        <p><strong>❌ 绝对禁止</strong>私自打散组件后手动修改。AI 会将打散后的图层视为"脏数据"，丢失组件语义信息，无法映射到代码组件库。</p>
+                    </div>
+                    
+                    <h4>💡 参数映射 (Properties → Props)</h4>
+                    <p>利用 Figma 的 Properties 功能定义组件变体，让 AI 能直接生成对应的组件 Props。</p>
+                    
+                    <table class="mapping-table">
+                        <thead>
+                            <tr>
+                                <th>Figma Property</th>
+                                <th></th>
+                                <th>React Props</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="code-inline">variant = "primary"</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">&lt;Button variant="primary"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code class="code-inline">size = "large"</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">&lt;Button size="lg"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code class="code-inline">disabled = true</code></td>
+                                <td class="mapping-arrow-cell">→</td>
+                                <td><code class="code-inline">&lt;Button disabled&gt;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl border border-stone-200 p-8 space-y-6">
-                <!-- 全量引用变量 -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-must">🔒 强制</span>
-                        <h4 class="font-bold text-stone-800">全量引用变量</h4>
-                    </div>
-                    <p class="text-sm text-stone-500 mb-4">
-                        颜色、圆角、间距等<strong>必须</strong>使用 Figma Variables，实现与代码侧（tokens.json）的数据源对齐。
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                            <p class="text-xs text-red-600 font-bold mb-2">❌ 硬编码</p>
-                            <code class="text-sm text-red-700">#3B82F6</code>
-                        </div>
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                            <p class="text-xs text-green-600 font-bold mb-2">✅ 引用变量</p>
-                            <code class="text-sm text-green-700">$color-primary-500</code>
-                        </div>
+        </section>
+        
+        <!-- 规约四：变量同步 -->
+        <section class="strategy-section">
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div class="strategy-number">4</div>
+                    <div>
+                        <h3 class="strategy-card-title">变量同步</h3>
+                        <p class="strategy-card-subtitle">Figma Variables = tokens.json — 设计与代码数据源对齐</p>
                     </div>
                 </div>
-
-                <!-- MCP 互传协议 -->
-                <div class="space-y-4 pt-6 border-t border-stone-100">
-                    <div class="flex items-center gap-3">
-                        <span class="rule-tag rule-good">🔄 协议</span>
-                        <h4 class="font-bold text-stone-800">MCP 互传协议</h4>
-                    </div>
-                    <p class="text-sm text-stone-500">
-                        确保设计稿与代码库之间的变量修改能<strong>双向同步</strong>：
-                    </p>
-                    <div class="bg-slate-50 rounded-lg p-5 mt-3">
-                        <div class="flex items-center justify-between text-sm">
-                            <div class="text-center">
-                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                    <span class="text-2xl">🎨</span>
-                                </div>
-                                <p class="font-medium text-stone-700">Figma</p>
-                            </div>
-                            <div class="flex-1 flex items-center justify-center gap-2 text-stone-400">
-                                <span>←</span>
-                                <span class="text-xs bg-stone-200 px-2 py-1 rounded">MCP</span>
-                                <span>→</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                    <span class="text-2xl">💻</span>
-                                </div>
-                                <p class="font-medium text-stone-700">Code</p>
-                            </div>
+                
+                <div class="strategy-content">
+                    <h4>🔒 全量引用变量（强制）</h4>
+                    <p>颜色、圆角、间距等<strong>必须</strong>使用 Figma Variables，实现与代码侧（tokens.json）的数据源对齐。</p>
+                    
+                    <div class="compare-grid">
+                        <div class="compare-bad">
+                            <div class="compare-label">❌ 硬编码</div>
+                            <div class="compare-code">#3B82F6<br>border-radius: 8px<br>padding: 16px</div>
                         </div>
+                        <div class="compare-good">
+                            <div class="compare-label">✅ 引用变量</div>
+                            <div class="compare-code">$color-primary-500<br>$radius-md<br>$space-4</div>
+                        </div>
+                    </div>
+                    
+                    <h4>🔄 MCP 互传协议</h4>
+                    <p>确保设计稿与代码库之间的变量修改能<strong>双向同步</strong>：</p>
+                    
+                    <div class="flow-diagram">
+                        <div class="flow-step"><span class="icon">🎨</span> Figma 修改变量</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🔄</span> MCP 同步</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">💻</span> tokens.json 更新</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🏗️</span> 代码变量自动更新</div>
                     </div>
                 </div>
             </div>
         </section>
-
+        
+        <div class="divider"></div>
+        
         <!-- 团队治理方案 -->
-        <section class="space-y-8">
-            <h2 class="text-2xl font-bold text-stone-900">🛠️ 团队治理方案</h2>
+        <section class="strategy-section">
+            <h2 class="section-title">
+                <span class="emoji">🛠️</span>
+                团队治理方案
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-6);">
+                在 Figma 转代码之前，通过自动化审计拦截不合规的设计稿，建立设计 → 代码的闭环工作流。
+            </p>
             
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- 自动化 Lint 审计 -->
-                <div class="bg-white rounded-xl border border-stone-200 p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                            <span class="text-xl">🔍</span>
-                        </div>
-                        <h4 class="font-bold text-stone-800">自动化 Lint 审计</h4>
-                    </div>
-                    <p class="text-sm text-stone-500 mb-4">在转代码前自动检查：</p>
-                    <ul class="text-sm text-stone-600 space-y-2">
-                        <li class="flex items-start gap-2">
-                            <span class="text-stone-400">▸</span>
-                            <span>图层命名规范</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-stone-400">▸</span>
-                            <span>间距使用变量</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-stone-400">▸</span>
-                            <span>颜色引用检查</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-stone-400">▸</span>
-                            <span>组件来源白名单</span>
-                        </li>
+            <div class="strategy-card">
+                <div class="strategy-content">
+                    <h4>🔍 自动化 Lint 审计</h4>
+                    <p>在转代码前自动检查以下项目，不合格的设计稿直接拦截：</p>
+                    <ul>
+                        <li><strong>图层命名规范</strong> — 是否使用语义化英文命名</li>
+                        <li><strong>间距使用变量</strong> — 是否引用 Figma Variables 而非硬编码</li>
+                        <li><strong>颜色引用检查</strong> — 是否有未绑定变量的硬编码色值</li>
+                        <li><strong>组件来源白名单</strong> — 是否全部来自指定组件库</li>
+                        <li><strong>图层树深度</strong> — 嵌套是否超过 5 层</li>
                     </ul>
-                </div>
-
-                <!-- 协作循环 -->
-                <div class="bg-white rounded-xl border border-stone-200 p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                            <span class="text-xl">🔄</span>
-                        </div>
-                        <h4 class="font-bold text-stone-800">Figma ↔ MCP 协作循环</h4>
-                    </div>
-                    <p class="text-sm text-stone-500 mb-4">建立闭环工作流：</p>
-                    <div class="text-sm text-stone-600 space-y-2">
-                        <div class="flex items-center gap-2">
-                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                            <span>设计输出</span>
-                        </div>
-                        <div class="flex items-center gap-2 ml-3 text-stone-400">↓</div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                            <span>AI 生成代码</span>
-                        </div>
-                        <div class="flex items-center gap-2 ml-3 text-stone-400">↓</div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                            <span>代码精修</span>
-                        </div>
-                        <div class="flex items-center gap-2 ml-3 text-stone-400">↓</div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-6 h-6 bg-stone-100 rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                            <span>反向回写设计稿</span>
-                        </div>
+                    
+                    <h4>🔄 Figma ↔ MCP 协作循环</h4>
+                    <p>建立"设计输出 → AI 生成 → 代码精修 → 反向回写"的闭环工作流：</p>
+                    
+                    <div class="flow-diagram">
+                        <div class="flow-step"><span class="icon">🎨</span> 设计输出</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">🤖</span> AI 生成代码</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">👨‍💻</span> 代码精修</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step"><span class="icon">↩️</span> 反向回写设计稿</div>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <!-- 检查清单 -->
-        <section class="bg-stone-100 rounded-2xl p-8">
-            <h3 class="text-xl font-bold text-stone-900 mb-6 text-center">✅ Figma 交付前检查清单</h3>
-            <div class="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
-                    <span class="text-sm text-stone-700">所有图层使用语义化英文命名</span>
+        <section class="checklist-section">
+            <h3 class="checklist-title">✅ Figma 交付前检查清单</h3>
+            <div class="checklist-grid">
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <span>所有图层使用语义化英文命名</span>
                 </label>
-                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
-                    <span class="text-sm text-stone-700">所有容器设置 Auto Layout</span>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <span>所有容器设置 Auto Layout</span>
                 </label>
-                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
-                    <span class="text-sm text-stone-700">颜色/间距/圆角引用 Variables</span>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <span>颜色/间距/圆角引用 Variables</span>
                 </label>
-                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
-                    <span class="text-sm text-stone-700">组件来自白名单库</span>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <span>组件来自白名单库</span>
                 </label>
-                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
-                    <span class="text-sm text-stone-700">无 Detach 的组件实例</span>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <span>无 Detach 的组件实例</span>
                 </label>
-                <label class="flex items-center gap-3 bg-white rounded-lg p-4 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input type="checkbox" class="w-5 h-5 rounded border-stone-300">
-                    <span class="text-sm text-stone-700">图层树深度 ≤ 5 层</span>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <span>图层树嵌套深度 ≤ 5 层</span>
                 </label>
             </div>
         </section>
-
-        <!-- 底部口诀 -->
-        <section class="text-center py-10">
-            <div class="inline-block bg-gradient-to-r from-slate-800 to-slate-900 text-white px-10 py-6 rounded-2xl">
-                <p class="text-lg font-bold mb-2">🎯 Figma 治理口诀</p>
-                <p class="text-xl text-slate-200">"命名要语义，布局要弹性，组件要纯净，变量要同步。"</p>
+        
+        <!-- 防呆口诀 -->
+        <div class="quote-block">
+            <div class="quote-block-title">🎯 Figma 治理口诀</div>
+            <div class="quote-block-content">
+                命名要语义，布局要弹性；<br>
+                组件要纯净，变量要同步。
             </div>
-        </section>
-    </main>
-
-    <!-- 页脚 -->
-    <footer class="border-t border-stone-200 py-8 text-center text-sm text-stone-400">
-        <p>AI-UI SOP 手册 · Figma 质量治理</p>
-    </footer>
+        </div>
+        
+        <!-- 页脚 -->
+        <footer class="page-footer">
+            <p>Figma 治理规约 — AI-UI SOP 手册子页</p>
+        </footer>
+    </div>
 </body>
 </html>
