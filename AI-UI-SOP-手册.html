@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI生UI：工业级工程化 SOP 全景手册 9.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; scroll-behavior: smooth; }
+        .chart-container { position: relative; width: 100%; max-width: 650px; margin: 0 auto; height: 380px; }
+        .interactive-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e5e7eb; }
+        .interactive-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.1); border-color: #0d9488; }
+        .diagram-node { border: 1px solid #d6d3d1; border-radius: 0.5rem; padding: 1.25rem; background: white; position: relative; }
+        .connector-down::after { content: '↓'; position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: #a8a29e; }
+        .sop-step-item { position: relative; padding-left: 4.5rem; margin-bottom: 6rem; width: 100%; }
+        .sop-line { position: absolute; left: 1.5rem; top: 3rem; bottom: -6rem; width: 2px; background: #e5e7eb; z-index: 0; }
+        .sop-step-item:last-child .sop-line { display: none; }
+        .sop-badge { position: absolute; left: 0; top: 0; width: 3rem; height: 3rem; background: #0d9488; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); border: 4px solid #fff; }
+        .code-block { background: #1c1917; color: #e7e5e4; padding: 1.75rem; border-radius: 1rem; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85rem; line-height: 1.6; overflow-x: auto; border: 1px solid #292524; width: 100%; }
+        .doc-block { background: #f8fafc; color: #334155; padding: 1.75rem; border-radius: 1rem; border: 1px solid #e2e8f0; font-size: 0.92rem; line-height: 1.8; width: 100%; position: relative; }
+        .block-label { font-size: 0.75rem; font-weight: bold; color: #78716c; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; letter-spacing: 0.05em; }
+        .tag { font-size: 0.7rem; padding: 3px 10px; border-radius: 6px; font-weight: bold; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .workflow-stage { background: white; border-radius: 1.5rem; padding: 2.5rem; border: 1px solid #e2e8f0; position: relative; }
+        .nexus-point { border: 3px solid #0d9488; background: #f0fdfa; }
+        .arrow-flow { text-align: center; color: #94a3b8; font-size: 1.8rem; margin: 1.5rem 0; font-weight: bold; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased min-h-screen">
+
+<nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between h-16 items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-xl font-bold text-teal-700 tracking-tight">AI-UI 团队工程化全景手册 9.0</span>
+            </div>
+            <div class="hidden md:flex space-x-10 text-sm font-medium">
+                <a href="#reality" class="text-stone-500 hover:text-teal-600 transition-all">现象分析</a>
+                <a href="#logic" class="text-stone-500 hover:text-teal-600 transition-all">底层原理</a>
+                <a href="#boundaries" class="text-stone-500 hover:text-teal-600 transition-all">能力边界</a>
+                <a href="#sop" class="text-teal-600 font-bold border-b-2 border-teal-600">生产SOP</a>
+                <a href="#workflow" class="text-stone-500 hover:text-teal-600 transition-all">协作全景</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-16 space-y-36">
+
+        <section id="reality" class="space-y-8 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-stone-900 border-l-4 border-teal-500 pl-4">1. 现象分析：理想与现实的鸿沟</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bg-amber-50 rounded-2xl p-10 border border-amber-100 interactive-card">
+                    <h3 class="text-xl font-bold text-amber-800 mb-6 flex items-center gap-2">💭 理想主义 (Hype)</h3>
+                    <ul class="space-y-5 text-stone-700">
+                        <li class="flex items-start gap-3"><span>❌</span> “一句话就能生成完整的商业应用。”</li>
+                        <li class="flex items-start gap-3"><span>❌</span> “AI能和设计师心灵相通，理解模糊的需求。”</li>
+                        <li class="flex items-start gap-3"><span>❌</span> “以后不需要前端开发和交互设计师了。”</li>
+                        <li class="flex items-start gap-3"><span>❌</span> 对着界面说“给我加个AI入口”，它就能完美契合业务流。</li>
+                    </ul>
+                </div>
+                <div class="bg-teal-50 rounded-2xl p-10 border border-teal-100 interactive-card">
+                    <h3 class="text-xl font-bold text-teal-800 mb-6 flex items-center gap-2">🧱 工程现实 (Reality)</h3>
+                    <ul class="space-y-5 text-stone-700">
+                        <li class="flex items-start gap-3"><span>✅</span> AI本质是概率预测引擎，缺乏业务上下文，需要显示喂养。</li>
+                        <li class="flex items-start gap-3"><span>✅</span> 模糊的提示词必定产生随机的结果（Hallucination）。</li>
+                        <li class="flex items-start gap-3"><span>✅</span> 它的定位是“代码/组件装配工”，而非产品架构师。</li>
+                        <li class="flex items-start gap-3"><span>✅</span> 必须将感性设计转化为理性协议，AI 才能真正落地。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="space-y-12 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-stone-900 border-l-4 border-teal-500 pl-4">2. 底层逻辑脑图：AI 是如何运作的</h2>
+            <div class="bg-stone-100 p-16 rounded-3xl flex flex-col items-center">
+                <div class="diagram-node text-center w-72 shadow-md connector-down border-teal-500 border-2">
+                    <h3 class="font-bold text-lg">LLM (大语言模型)</h3>
+                    <p class="text-xs text-stone-500 mt-1">本质：基于上下文的 Token 概率预测</p>
+                </div>
+                <div class="h-20"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-full">
+                    <div class="diagram-node flex-1 text-center shadow-sm">
+                        <div class="text-4xl mb-4">👁️</div>
+                        <h4 class="font-bold text-stone-800">视觉语义化</h4>
+                        <p class="text-sm text-stone-600 mt-4 leading-relaxed">将视觉信号转化为 Token 序列，理解界面层级树与空间拓扑关系</p>
+                    </div>
+                    <div class="diagram-node flex-1 text-center shadow-sm">
+                        <div class="text-4xl mb-4">🧠</div>
+                        <h4 class="font-bold text-stone-800">模式匹配</h4>
+                        <p class="text-sm text-stone-600 mt-4 leading-relaxed">在千亿级代码库中召回与当前上下文最匹配的代码范式与实现模式</p>
+                    </div>
+                    <div class="diagram-node flex-1 text-center shadow-sm">
+                        <div class="text-4xl mb-4">🗣️</div>
+                        <h4 class="font-bold text-stone-800">约束执行</h4>
+                        <p class="text-sm text-stone-600 mt-4 leading-relaxed">在输入的工程协议（JSON/MD）所划定的围栏内进行概率收敛，输出有效解</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="boundaries" class="space-y-12 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-stone-900 border-l-4 border-teal-500 pl-4">3. 能力边界分析：人机协同的界限</h2>
+            <div class="bg-white rounded-3xl shadow-sm border border-stone-200 p-12 lg:p-20">
+                <div class="chart-container mb-16">
+                    <canvas id="boundaryChart"></canvas>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 border-t border-stone-100 pt-16">
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 font-bold text-teal-700 text-xl">
+                            <span class="text-2xl">🤖</span> AI 核心优势：
+                        </div>
+                        <p class="text-stone-600 leading-relaxed text-base"><strong>极速原型生成</strong>：秒级产出讨论物料；<strong>标准组件装配</strong>：完美遵循组件库规范；<strong>多版本样式探索</strong>：基于风格迁移的海量方案出图。</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 font-bold text-amber-700 text-xl">
+                            <span class="text-2xl">👤</span> 人类核心职责：
+                        </div>
+                        <p class="text-stone-600 leading-relaxed text-base"><strong>业务意图抽象</strong>：定义“为什么”；<strong>设计协议制定</strong>：输出 JSON/MD 物理规则；<strong>复杂逻辑闭环</strong>：API 绑定与状态管理；<strong>最终品控</strong>：审美最终决策。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sop" class="space-y-12 scroll-mt-24">
+            <div>
+                <h2 class="text-3xl font-bold text-stone-900 border-l-4 border-teal-500 pl-4">4. 工业级标准化作业程序 (SOP)</h2>
+                <p class="mt-4 text-stone-600 text-lg leading-relaxed">将模糊对话转化为**机器可执行的协议**。这是确保 AI 产出“工程级代码”的唯一路径。</p>
+            </div>
+
+            <div class="space-y-16">
+                <div class="sop-step-item">
+                    <div class="sop-line"></div>
+                    <div class="sop-badge">1</div>
+                    <div class="bg-white p-12 rounded-3xl shadow-sm border border-stone-200 space-y-10">
+                        <div class="flex items-center gap-4">
+                            <h3 class="text-2xl font-bold text-stone-800">样式协议化 (Skeleton)</h3>
+                            <span class="tag">tokens.json</span>
+                        </div>
+                        <p class="text-stone-500 leading-relaxed">定义物理约束。建立三层令牌体系，消除 AI 的视觉盲猜。</p>
+                        <div>
+                            <span class="block-label">📑 深度示例：语义化 Token 体系</span>
+                            <div class="code-block">
+{
+  "project": "TAI-6.0",
+  "primitive": {
+    "teal-500": "#0D9488",
+    "teal-700": "#0F766E",
+    "stone-900": "#1C1917"
+  },
+  "semantic": {
+    "background": {
+      "main": "{primitive.stone-900}",
+      "action": "{primitive.teal-500}",
+      "action-hover": "{primitive.teal-700}"
+    },
+    "text": {
+      "on-action": "#FFFFFF",
+      "muted": "#A8A29E"
+    }
+  },
+  "layout": {
+    "radius": { "card": "24px", "btn": "12px" },
+    "spacing": { "md": "16px", "lg": "32px" }
+  },
+  "component-constraints": {
+    "primary-button": {
+      "min-height": "64px",
+      "font-weight": "700"
+    }
+  }
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sop-step-item">
+                    <div class="sop-line"></div>
+                    <div class="sop-badge">2</div>
+                    <div class="bg-white p-12 rounded-3xl shadow-sm border border-stone-200 space-y-10">
+                        <div class="flex items-center gap-4">
+                            <h3 class="text-2xl font-bold text-stone-800">意图规格书 (Soul)</h3>
+                            <span class="tag">spec.md</span>
+                        </div>
+                        <p class="text-stone-500 leading-relaxed">注入设计的灵魂。用结构化文档解释业务场景逻辑与“不可逾越的红线”。</p>
+                        <div>
+                            <span class="block-label">📝 深度示例：包含状态机逻辑的交互规格书</span>
+                            <div class="doc-block">
+# 场景：驾驶模式下的智能助手交互
+## 1. 核心触发逻辑
+- **初始化**：组件以 `semantic.background.main` 色彩常驻于屏幕底栏 20% 处。
+- **驾驶感应**：若检测到 `car_speed > 0`，强制进入“安全性门禁模式”：
+  - 自动将按钮点击热区扩大至全宽。
+  - 禁止展示任何细颗粒度的辅助文本，仅保留核心 Action。
+
+## 2. 反馈闭环规范
+- **监听中 (Listening)**：背景需执行 2.0s 周期的渐变呼吸效果。
+- **思考中 (Thinking)**：展示 `tokens.json` 中定义的 `action` 颜色的 loading 状态。
+- **错误边界**：若 AI 响应超时，展示警告图标并回退至上一级导航，不得在当前页死等。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sop-step-item">
+                    <div class="sop-line"></div>
+                    <div class="sop-badge">3</div>
+                    <div class="bg-white p-12 rounded-3xl shadow-sm border border-stone-200 space-y-10 ring-2 ring-teal-500 ring-offset-4">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <h3 class="text-2xl font-bold text-teal-800">封装参考库 (Reference)</h3>
+                                <span class="tag">.tsx / .jsx</span>
+                            </div>
+                            <span class="text-xs font-bold text-teal-600 bg-teal-50 px-4 py-2 rounded-full uppercase">核心资产库</span>
+                        </div>
+                        <p class="text-stone-500 leading-relaxed"><strong>这是存放你封装代码块的地方！</strong> 喂入私有源码（Few-shot），AI 才能生成真正工程化的调用。</p>
+                        <div>
+                            <span class="block-label">💻 深度示例：企业级封装组件源码 (带业务 Hook)</span>
+                            <div class="code-block">
+// 你已经写好的私有资产：TAI_BaseCard.tsx
+import { useDriverState } from '@/hooks/useDriverState';
+import { Tokens } from '@/config/theme';
+
+export const TAI_Container = ({ title, children, status = 'idle' }) => {
+  const { isDrivingMode } = useDriverState();
+  
+  return (
+    &lt;div className={`p-6 flex flex-col gap-4 rounded-[--radius-card] shadow-xl
+                   ${isDrivingMode ? 'bg-secondary' : 'bg-primary'} 
+                   ${status === 'error' ? 'border-red-500' : 'border-stone-800'}`}&gt;
+      &lt;div className="flex justify-between items-center"&gt;
+        &lt;h3 className="text-xl font-extrabold text-white"&gt;{title}&lt;/h3&gt;
+        &lt;div className="status-indicator" /&gt;
+      &lt;/div&gt;
+      &lt;div className="w-full h-px bg-stone-700 opacity-30" /&gt;
+      &lt;div className="card-body-content"&gt;
+        {children}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sop-step-item">
+                    <div class="sop-line"></div>
+                    <div class="sop-badge">4</div>
+                    <div class="bg-white p-12 rounded-3xl shadow-sm border border-stone-200 space-y-12">
+                        <div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <h3 class="text-2xl font-bold text-stone-800">人机交接与交付 (QA Gate)</h3>
+                                <span class="tag">Delivery</span>
+                            </div>
+                            <p class="text-stone-500 leading-relaxed">明确工程边界：AI 产出“皮囊”，人类负责注入“数据活水”。</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="p-10 border-2 border-dashed border-teal-100 bg-teal-50/20 rounded-3xl">
+                                <h4 class="font-bold text-teal-700 uppercase mb-6 flex items-center gap-2">🤖 AI 产出的 80%</h4>
+                                <ul class="text-sm space-y-4 text-stone-600">
+                                    <li>✔ 复用 Step 3 里的私有封装组件进行装配</li>
+                                    <li>✔ 自动填入 Step 1 里的语义化变量名</li>
+                                    <li>✔ 生成响应式布局代码及 UI 状态展示逻辑</li>
+                                    <li>✔ 遵循 Step 2 的交互场景物理约束</li>
+                                </ul>
+                            </div>
+                            <div class="p-10 border-2 border-dashed border-amber-100 bg-amber-50/20 rounded-3xl">
+                                <h4 class="font-bold text-amber-700 uppercase mb-6 flex items-center gap-2">👤 人类介入的 20%</h4>
+                                <ul class="text-sm space-y-4 text-stone-600">
+                                    <li>✔ 后端 API 数据真实接口联调与错误分支捕获</li>
+                                    <li>✔ 全局 Context/Redux 状态树同步与权限分发</li>
+                                    <li>✔ 针对极细微交互细腻度的最后像素级微调</li>
+                                    <li>✔ 性能优化及正式部署前的工程安全性审计</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="space-y-16 pb-48 scroll-mt-24">
+            <div>
+                <h2 class="text-3xl font-bold text-stone-900 border-l-4 border-teal-500 pl-4">5. 团队协作全景链路：殊途同归的工程闭环</h2>
+                <p class="mt-4 text-stone-600 text-lg leading-relaxed">无论起点在哪里，最终都会在 IDE 核心节点汇聚，产出工业级代码。</p>
+            </div>
+
+            <div class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="workflow-stage border-blue-100 bg-blue-50/10">
+                        <div class="text-xs font-bold text-blue-600 mb-2 uppercase tracking-widest">路径 A：需求/逻辑驱动</div>
+                        <h4 class="text-xl font-bold">PRD 导入 IDE</h4>
+                        <p class="text-sm text-slate-500 mt-4 leading-relaxed">产品经理或设计将结构化文档 + 界面截图喂给 Cursor。侧重于补全业务逻辑与流程分支。</p>
+                    </div>
+                    <div class="workflow-stage border-amber-100 bg-amber-50/10">
+                        <div class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-widest">路径 B：视觉/规范驱动</div>
+                        <h4 class="text-xl font-bold">Figma 规范导入 IDE</h4>
+                        <p class="text-sm text-slate-400 mt-4 leading-relaxed">设计师通过插件提炼样式元数据 JSON 同步至 IDE。侧重于极致像素还原与品牌一致性。</p>
+                    </div>
+                </div>
+
+                <div class="arrow-flow">↓ 殊途同归汇聚点 ↓</div>
+
+                <div class="workflow-stage nexus-point text-center py-20">
+                    <h4 class="text-2xl font-bold text-teal-800 tracking-tight">汇聚节点：AI Demo 生成 (IDE / Cursor)</h4>
+                    <p class="text-sm text-slate-600 mt-6 max-w-3xl mx-auto italic leading-relaxed">
+                        AI 深度整合 **SOP 四项物料 (JSON + MD + 代码库 + API)**，吐出首版可运行页面。这是团队所有分支的汇聚点。
+                    </p>
+                </div>
+
+                <div class="arrow-flow">↓ 循环精修迭代 ↓</div>
+
+                <div class="workflow-stage p-16">
+                    <h4 class="text-sm font-bold mb-12 text-center uppercase tracking-widest text-stone-400">精修动作：如何让 Demo 达到设计预期？</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-sm">
+                        <div class="space-y-4">
+                            <p class="font-bold text-teal-700 bg-teal-50 p-2 rounded inline-block">1. 自然语言追加提示</p>
+                            <p class="text-slate-500 leading-relaxed text-xs">“按钮太靠右了，参考 tokens.json 的间距系统向左移 16px，并提升主色饱和度。”</p>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="font-bold text-teal-700 bg-teal-50 p-2 rounded inline-block">2. 引用代码块强制重构</p>
+                            <p class="text-slate-500 leading-relaxed text-xs">“将此处的卡片组件替换为项目中的 `@TAI_Container.tsx` 封装组件。”</p>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="font-bold text-teal-700 bg-teal-50 p-2 rounded inline-block">3. Figma 双向联动纠偏</p>
+                            <p class="text-slate-500 leading-relaxed text-xs">局部视觉调不准时，在 Figma 精修后重新导出 JSON 覆盖 IDE 的主题定义。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow-flow">↓ 工业落地交付 ↓</div>
+
+                <div class="workflow-stage bg-slate-900 text-white text-center py-16">
+                    <h4 class="text-2xl font-bold text-teal-400">研发：工业级落地</h4>
+                    <p class="text-sm text-slate-400 mt-6 max-w-xl mx-auto leading-relaxed">
+                        研发接手已经“长相正确”且符合规范的 Demo 代码，完成最后的数据逻辑绑定、鉴权与闭环，正式转为生产代码。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-500 py-24 text-center text-xs border-t border-stone-800">
+        <p class="font-bold tracking-widest uppercase mb-6 text-stone-400">AI-UI SOP 定稿全景手册 V9.0</p>
+        <p class="max-w-xl mx-auto italic leading-relaxed">“不要把 AI 仅仅当成绘图工具，把它当成流水线上的装配助理。效率源于规则定义的深度。”</p>
+        <p class="mt-8 text-stone-700">基于 TAI 6.0 设计专家实践指南与工业界 SDD 报告</p>
+    </footer>
+
+    <script>
+        const initChart = () => {
+            const ctx = document.getElementById('boundaryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['交付效率', '规范执行度', '深层逻辑推导', '审美决策主权', '自动化闭环率'],
+                    datasets: [
+                        { label: '人工专家 (UX+FE)', data: [45, 75, 95, 100, 95], backgroundColor: 'rgba(217, 119, 6, 0.12)', borderColor: '#d97706', borderWidth: 2, pointBackgroundColor: '#d97706' },
+                        { label: 'AI SOP 产线', data: [100, 98, 45, 30, 92], backgroundColor: 'rgba(13, 148, 136, 0.12)', borderColor: '#0d9488', borderWidth: 2, pointBackgroundColor: '#0d9488' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { r: { ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.05)' }, angleLines: { color: 'rgba(0,0,0,0.05)' }, pointLabels: { font: { size: 12, weight: 'bold' }, color: '#444' } } },
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 15, font: { size: 12 } } } }
+                }
+            });
+        };
+        window.onload = initChart;
+    </script>
+</body>
+</html>
