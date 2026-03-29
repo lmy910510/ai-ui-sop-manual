@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>为什么 AI 不是无所不能的设计同事</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ========================================
+           Notion-Style Design System (Stone)
+           ======================================== */
+        
+        :root {
+            /* Stone 色板 */
+            --stone-50: #fafaf9;
+            --stone-100: #f5f5f4;
+            --stone-200: #e7e5e4;
+            --stone-300: #d6d3d1;
+            --stone-400: #a8a29e;
+            --stone-500: #78716c;
+            --stone-600: #57534e;
+            --stone-700: #44403c;
+            --stone-800: #292524;
+            --stone-900: #1c1917;
+            
+            /* 语义色 */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--stone-50);
+            --bg-tertiary: var(--stone-100);
+            --text-primary: var(--stone-800);
+            --text-secondary: var(--stone-600);
+            --text-tertiary: var(--stone-500);
+            --border-color: var(--stone-200);
+            --border-light: var(--stone-100);
+            
+            /* 间距系统 */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            
+            /* 圆角 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            
+            /* 字体 */
+            --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SF Mono", "Fira Code", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ========================================
+           布局
+           ======================================== */
+        
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-6);
+        }
+        
+        /* ========================================
+           顶部导航
+           ======================================== */
+        
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-10);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.15s ease;
+        }
+        
+        .back-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .breadcrumb {
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========================================
+           页面标题
+           ======================================== */
+        
+        .page-header {
+            margin-bottom: var(--space-12);
+        }
+        
+        .page-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            letter-spacing: -0.02em;
+        }
+        
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+           核心理念卡片
+           ======================================== */
+        
+        .core-concept {
+            background: linear-gradient(135deg, var(--stone-800) 0%, var(--stone-900) 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-10);
+            color: white;
+        }
+        
+        .core-concept-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--stone-400);
+            margin-bottom: var(--space-3);
+        }
+        
+        .core-concept-main {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            line-height: 1.5;
+        }
+        
+        .core-concept-desc {
+            color: var(--stone-300);
+            line-height: 1.7;
+        }
+        
+        .core-concept-highlight {
+            color: #fbbf24;
+            font-weight: 700;
+        }
+        
+        /* ========================================
+           章节
+           ======================================== */
+        
+        .section {
+            margin-bottom: var(--space-12);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .section-title .emoji {
+            font-size: 28px;
+        }
+        
+        /* ========================================
+           策略/内容卡片
+           ======================================== */
+        
+        .content-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-6);
+        }
+        
+        .content-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-3);
+            margin-top: var(--space-5);
+        }
+        
+        .content-card h4:first-child {
+            margin-top: 0;
+        }
+        
+        .content-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+            line-height: 1.7;
+        }
+        
+        .content-card ul {
+            margin-left: var(--space-5);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .content-card li {
+            margin-bottom: var(--space-2);
+        }
+        
+        .content-card li strong {
+            color: var(--text-primary);
+        }
+        
+        /* ========================================
+           网格卡片
+           ======================================== */
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin: var(--space-4) 0;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--space-4);
+            margin: var(--space-4) 0;
+        }
+        
+        .grid-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+        }
+        
+        .grid-card h5 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .grid-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           编号卡片
+           ======================================== */
+        
+        .numbered-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+        }
+        
+        .numbered-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+        
+        .numbered-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--stone-800);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .numbered-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+        
+        .numbered-card-body {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .numbered-card-body p {
+            margin-bottom: var(--space-3);
+        }
+        
+        .numbered-card-body ul {
+            margin-left: var(--space-5);
+            margin-bottom: var(--space-3);
+        }
+        
+        .numbered-card-body li {
+            margin-bottom: var(--space-2);
+        }
+        
+        /* ========================================
+           引用块
+           ======================================== */
+        
+        .quote-block {
+            background: linear-gradient(135deg, var(--stone-100) 0%, var(--stone-50) 100%);
+            border-left: 4px solid var(--stone-800);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+        }
+        
+        .quote-block-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .quote-block-content {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           警告/提示块
+           ======================================== */
+        
+        .callout {
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin: var(--space-4) 0;
+        }
+        
+        .callout-insight {
+            background: var(--stone-100);
+            border: 1px solid var(--border-color);
+        }
+        
+        .callout-insight p {
+            color: var(--text-primary);
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+           标签
+           ======================================== */
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           分隔线
+           ======================================== */
+        
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: var(--space-10) 0;
+        }
+        
+        /* ========================================
+           列表高亮样式
+           ======================================== */
+        
+        .highlight-list {
+            list-style: none;
+            margin: var(--space-4) 0;
+            padding: 0;
+        }
+        
+        .highlight-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-2);
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .highlight-list li .icon {
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        
+        /* ========================================
+           四宫格
+           ======================================== */
+        
+        .four-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+        }
+        
+        .four-grid-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+        }
+        
+        .four-grid-item .emoji-icon {
+            font-size: 28px;
+            margin-bottom: var(--space-3);
+        }
+        
+        .four-grid-item h5 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .four-grid-item p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           底部
+           ======================================== */
+        
+        .page-footer {
+            margin-top: var(--space-12);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+        
+        /* ========================================
+           响应式
+           ======================================== */
+        
+        @media (max-width: 768px) {
+            .page-container {
+                padding: var(--space-5) var(--space-4);
+            }
+            
+            .page-title {
+                font-size: 32px;
+            }
+            
+            .grid-2, .four-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-card {
+                padding: var(--space-5);
+            }
+            
+            .numbered-card {
+                padding: var(--space-5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <a href="AI-UI-SOP-手册-10.0.html" class="back-button">
+                <span>←</span>
+                <span>返回主页</span>
+            </a>
+            <div class="breadcrumb">
+                <a href="AI-UI-SOP-手册-10.0.html">AI-UI SOP 手册</a>
+                <span> / </span>
+                <span>为什么 AI 不是无所不能的设计同事</span>
+            </div>
+        </nav>
+        
+        <!-- 页面标题 -->
+        <header class="page-header">
+            <h1 class="page-title">为什么 AI 不是无所不能的设计同事</h1>
+            <p class="page-subtitle">面向 TMap Studio 场景的完整说明 — 理解 AI 的真实能力边界，才能把它真正用好</p>
+        </header>
+        
+        <!-- 核心理念 -->
+        <div class="core-concept">
+            <div class="core-concept-title">核心结论</div>
+            <div class="core-concept-main">AI 不是"自己就懂"的人，而是<span class="core-concept-highlight">"你写清楚它才更像懂"</span>的系统。</div>
+            <p class="core-concept-desc">
+                它最擅长在规则清晰、样例充分、上下文完整、目标明确的前提下快速生成；最容易出问题的地方，恰恰是人类设计协作里最依赖经验的部分：隐性规则、边界条件、优先级冲突、业务语义和审美判断。
+            </p>
+        </div>
+
+        <!-- AI 的定位 -->
+        <div class="content-card">
+            <p style="color: var(--text-primary); font-weight: 600; margin-bottom: var(--space-4);">真正成熟的 AI 协作方式，是把它当成：</p>
+            <ul class="highlight-list">
+                <li><span class="icon">⚡</span> <strong>很强的生产工具</strong> — 在约束范围内快速生成</li>
+                <li><span class="icon">✏️</span> <strong>很快的草拟器和改稿器</strong> — 秒级产出讨论物料</li>
+                <li><span class="icon">🔄</span> <strong>很勤奋的执行者</strong> — 不知疲倦地重复劳动</li>
+                <li><span class="icon">🔒</span> <strong>需要被约束、校验、持续喂上下文的系统</strong> — 不能放任自由发挥</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 二、误解来源 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🤔</span>
+                为什么很多人误以为 AI 无所不能
+            </h2>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">1</div>
+                    <div>
+                        <h3 class="numbered-card-title">它说话太像"懂了"</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>大模型非常擅长生成流畅、自然、像专家一样的表达。即使它并没有真正掌握你的业务边界，也能给出一段看起来很完整、很合理、甚至很自信的回答。</p>
+                    <div class="callout callout-insight">
+                        <p><strong>⚠️ 危险信号：</strong>它表达得像懂，不等于它真的理解了。AI 最可怕的地方不是"不会"，而是<strong>半懂不懂，却表现得像已经懂了</strong>。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">2</div>
+                    <div>
+                        <h3 class="numbered-card-title">它在"标准题"上表现太好</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>生成常规页面结构、改按钮圆角、调字体层级、重新排版卡片——这类高度重复的任务，AI 表现得相当好。但一旦进入真实业务语境：</p>
+                    <ul>
+                        <li>这个状态什么时候出现？</li>
+                        <li>这个入口为什么要放这里？</li>
+                        <li>10 个途经点和 2 个途经点时交互是否一致？</li>
+                        <li>弱网、定位失败、路线异常时，页面应该优先表达什么？</li>
+                    </ul>
+                    <p>这些问题的答案通常不在公开样本里，而在你们团队自己的业务约束里。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">3</div>
+                    <div>
+                        <h3 class="numbered-card-title">速度容易被误判成理解力</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>AI 30 秒出一版页面，速度远超人工流程。于是人很容易默认"出得快 = 理解得快"。</p>
+                    <div class="quote-block" style="margin: var(--space-4) 0;">
+                        <div class="quote-block-content" style="font-size: 16px;">速度是生成能力，不是理解能力。它可以很快拼出一个"看起来对"的东西，但不代表它知道哪些地方是核心约束，哪些只是视觉表象。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 三、AI 擅长什么 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">✅</span>
+                AI 到底擅长什么
+            </h2>
+            
+            <div class="grid-3">
+                <div class="grid-card">
+                    <h5>⚡ 在明确约束下快速生成</h5>
+                    <p>输入明确、结构稳定、有标准组件和固定 token 时，AI 往往很好用。护栏清晰，正确答案范围可收敛。</p>
+                </div>
+                <div class="grid-card">
+                    <h5>🔄 重组、改写、迁移</h5>
+                    <p>对已有内容做"再加工"比从零创造更稳定。按已有风格重写模块、迁移结构到另一个业务、合并分散说明。</p>
+                </div>
+                <div class="grid-card">
+                    <h5>🔧 补重复劳动</h5>
+                    <p>初版占位稿、重复样式调整、多状态铺陈、组件替换、文案区重排。这些不需要顶级判断力但很消耗时间的工作。</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h4>适用任务示例</h4>
+                <ul>
+                    <li>按现有组件库生成一个搜索页片段</li>
+                    <li>在已有导航页骨架里补全某个卡片区域</li>
+                    <li>按 token 规则统一颜色、字号、间距</li>
+                    <li>把文案区做成空态 / 满态 / 错误态三种变体</li>
+                    <li>参照一个页面的结构，迁移到另一个业务模块</li>
+                    <li>把设计说明转成结构化文档</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 四、AI 不擅长什么 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">❌</span>
+                AI 最不擅长什么
+            </h2>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">1</div>
+                    <div>
+                        <h3 class="numbered-card-title">不擅长理解隐性规则</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>人类团队里，很多最重要的规则从来没被完整写下来——设计师经验、评审会议结论、反复返工后的默契、"这个之前踩过坑"的口口相传。</p>
+                    <ul>
+                        <li>某个按钮虽然视觉上能放，但业务上不能提前暴露</li>
+                        <li>某个入口默认收起，因为真实点击率很低</li>
+                        <li>某个模块必须和地图区域保持空间关系，否则会遮挡核心信息</li>
+                    </ul>
+                    <p>AI 天生读不到这些东西。除非你把它们写出来。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">2</div>
+                    <div>
+                        <h3 class="numbered-card-title">不擅长处理边界条件</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>AI 特别怕"平时没问题，但一到极限情况就露馅"的任务。常见的问题不是完全不知道这些场景，而是：</p>
+                    <ul>
+                        <li><strong>没主动想到</strong></li>
+                        <li><strong>想到了但漏了优先级</strong></li>
+                        <li><strong>画得出来但交互逻辑不一致</strong></li>
+                        <li><strong>局部合理，但全链路不自洽</strong></li>
+                    </ul>
+                    <div class="callout callout-insight">
+                        <p>真实产品里最重要的，不只是主流程图，而是：<strong>极端状态、异常状态、空态、冲突态、切换态</strong>。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">3</div>
+                    <div>
+                        <h3 class="numbered-card-title">不擅长处理规则冲突</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>很多业务场景里，规则互相拉扯：页面要简洁但也要信息完整、入口要显眼但不能抢主路径、要统一组件但场景有特殊性。</p>
+                    <p>AI 在没有明确优先级说明时，往往会机械执行一条规则忽略另一条，或者混合折中做出谁都不满意的方案。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">4</div>
+                    <div>
+                        <h3 class="numbered-card-title">不擅长真正的审美判断</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>AI 很会模仿风格，但不等于具备稳定审美判断。它可以做出"像现代设计"的页面，但不一定知道为什么这个留白刚好、为什么视觉重心不能再上移、为什么这个区域已经"太满了"。</p>
+                    <p>审美不是简单的样式拼装，而是大量经验、比较、克制、取舍形成的判断。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">5</div>
+                    <div>
+                        <h3 class="numbered-card-title">不擅长对"没说出来的目标"负责</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>"看起来更轻一点""交互更顺一些""再高级点，但不能过度设计"——人类同事会结合上下文理解说话人的倾向，还会通过反问逐步收敛方向。</p>
+                    <p>AI 会优先给出一个"最像满足要求"的版本，而不是主动暴露"这个目标其实还不够可执行"。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 五、AI 最怕边界不清 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🚨</span>
+                AI 最怕的其实是什么
+            </h2>
+            
+            <div class="quote-block">
+                <div class="quote-block-title">一句话总结</div>
+                <div class="quote-block-content">AI 最怕边界不清。</div>
+            </div>
+
+            <div class="content-card">
+                <p style="color: var(--text-primary); font-weight: 600; margin-bottom: var(--space-4);">"边界不清"包括以下五个层面：</p>
+                
+                <div class="grid-2" style="margin-top: var(--space-4);">
+                    <div class="grid-card">
+                        <h5>🎯 目标边界不清</h5>
+                        <p>不知道这次到底要解决什么——只改视觉？改信息层级？改交互流程？还是补状态完整性？</p>
+                    </div>
+                    <div class="grid-card">
+                        <h5>🏗️ 结构边界不清</h5>
+                        <p>不知道哪些属于公共组件、哪些属于页面片段、哪些属于业务逻辑。结果本该复用组件，它重写了一套。</p>
+                    </div>
+                    <div class="grid-card">
+                        <h5>📏 规则边界不清</h5>
+                        <p>不知道哪些规则是硬约束、哪些是建议、哪些可以破例、哪些绝对不行。没有这层边界，AI 的"自由发挥"就会越来越大。</p>
+                    </div>
+                    <div class="grid-card">
+                        <h5>💼 业务边界不清</h5>
+                        <p>不知道这个页面在整个业务链路中承担什么角色。如果 AI 只从视觉层看页面，就会把它做成"好看但不对"的东西。</p>
+                    </div>
+                </div>
+                
+                <div class="grid-card" style="margin-top: var(--space-4);">
+                    <h5>📋 示例边界不清</h5>
+                    <p>人类经常把"例子"当成"规则"给出去。你给了一个示意图本意是表达结构，AI 却把图上的具体文案、比例、布局都当成必须照抄的规则。给 AI 示例时，必须同时说明哪些部分只是示意、哪些是硬约束。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 六、最容易出错的五种方式 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">⚠️</span>
+                在设计场景里，AI 最容易出错的五种方式
+            </h2>
+            
+            <div class="content-card">
+                <ul class="highlight-list">
+                    <li>
+                        <span class="icon">1️⃣</span>
+                        <div><strong>把"像"当成"对"</strong> — 能做出看起来像腾讯地图、像导航页、像成熟产品的界面，但不代表满足真实业务约束。</div>
+                    </li>
+                    <li>
+                        <span class="icon">2️⃣</span>
+                        <div><strong>把主流程做对，却把异常状态做丢</strong> — 主流程样例多、结构清楚；空态、错误态、极限态才是真正出问题的地方。</div>
+                    </li>
+                    <li>
+                        <span class="icon">3️⃣</span>
+                        <div><strong>把局部做精致，却把整体一致性做坏</strong> — 单看一个卡片很好，放回整页后信息层级乱、风格不一致、间距断裂、与地图层遮挡冲突。</div>
+                    </li>
+                    <li>
+                        <span class="icon">4️⃣</span>
+                        <div><strong>把以前的样例错误继承下来</strong> — AI 很擅长模仿，如果喂给它的样例本身有问题，它会高效复制这个问题，甚至把它"规范化"。</div>
+                    </li>
+                    <li>
+                        <span class="icon">5️⃣</span>
+                        <div><strong>把不确定的问题补成确定答案</strong> — 输入缺信息时，AI 不是停下来问，而是补一个它认为最合理的版本。演示时很惊艳，生产时很危险。</div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 七、为什么设计稿本身不够 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">📄</span>
+                为什么设计稿本身不够，必须有结构化说明
+            </h2>
+            
+            <div class="content-card">
+                <p>设计稿能表达的，主要是"这个时刻长什么样"；而产品设计真正重要的，往往是状态为什么出现、控件何时显示、上限是多少、多种异常同时出现时谁优先——这些信息不会自动包含在图里。</p>
+                
+                <div class="grid-2" style="margin-top: var(--space-5);">
+                    <div class="grid-card" style="border-left: 3px solid var(--stone-300);">
+                        <h5>📸 设计稿 = 感知材料</h5>
+                        <p>"这个时刻长什么样"</p>
+                    </div>
+                    <div class="grid-card" style="border-left: 3px solid var(--stone-800);">
+                        <h5>📋 结构化说明 = 规则材料</h5>
+                        <p>"为什么这样、什么时候、上限是多少、异常怎么处理"</p>
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: var(--space-6);">对 AI 友好的设计知识，应该包括：</h4>
+                <ul>
+                    <li><strong>设计稿原图</strong> — 视觉参照</li>
+                    <li><strong>结构化说明</strong> — 模块摘要、功能描述</li>
+                    <li><strong>状态清单</strong> — 空态 / 满态 / 错误态 / 极限态</li>
+                    <li><strong>边界条件表</strong> — 上限、切换规则、优先级</li>
+                    <li><strong>禁止事项</strong> — 明确的"不要做什么"</li>
+                </ul>
+            </div>
+            
+            <div class="quote-block">
+                <div class="quote-block-content" style="font-size: 16px;">图是感知材料，结构化说明才是规则材料。</div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 八、正确使用 AI 的方式 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🎯</span>
+                在 TMap Studio 里，怎么正确使用 AI
+            </h2>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">1</div>
+                    <div>
+                        <h3 class="numbered-card-title">不把 AI 当"会自己懂"的人</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>不要默认它会自动理解你的业务术语、团队习惯、历史上踩过的坑、你心里那个"差不多就对了"的判断标准。这些都需要显性化。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">2</div>
+                    <div>
+                        <h3 class="numbered-card-title">把隐性知识翻译成显性规则</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>优先写清楚：</p>
+                    <div class="grid-2">
+                        <div class="grid-card">
+                            <ul style="margin-left: var(--space-4); color: var(--text-secondary); font-size: 14px;">
+                                <li>页面结构</li>
+                                <li>组件使用规则</li>
+                                <li>token 规则</li>
+                                <li>业务模块摘要</li>
+                            </ul>
+                        </div>
+                        <div class="grid-card">
+                            <ul style="margin-left: var(--space-4); color: var(--text-secondary); font-size: 14px;">
+                                <li>状态分类</li>
+                                <li>极端情况</li>
+                                <li>禁止事项</li>
+                                <li>样例和反例</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: var(--space-3);">让 AI 的上下文越结构化，它的表现越稳定。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">3</div>
+                    <div>
+                        <h3 class="numbered-card-title">先让它在护栏内高效</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>更合理的路径是：先限定范围 → 先定义结构 → 先统一组件和 token → 先从高频页面开始 → 先把主流程和极端状态补齐 → 再逐步扩大 AI 可处理的空间。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">4</div>
+                    <div>
+                        <h3 class="numbered-card-title">必须保留校验环节</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>AI 可以快，但不能跳过验证。至少要验证：是否遵守结构规则、是否复用正确组件、是否使用正确 token、是否覆盖关键状态、是否与已有页面一致、是否与业务约束冲突。</p>
+                    <div class="callout callout-insight">
+                        <p>这也是为什么 TMap Studio 需要 <strong>Generator + Evaluator</strong> 双层机制。不是因为 AI 不好，而是因为任何生成系统都必须有质量闭环。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 九、缺这四样东西 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🧩</span>
+                AI 不是无所不能，因为它缺这四样东西
+            </h2>
+            
+            <div class="four-grid">
+                <div class="four-grid-item">
+                    <div class="emoji-icon">🏢</div>
+                    <h5>缺真实业务经历</h5>
+                    <p>它没有真的参与过你们的项目推进，也没有真的经历过你们的返工和争论。</p>
+                </div>
+                <div class="four-grid-item">
+                    <div class="emoji-icon">🤝</div>
+                    <h5>缺隐性默契</h5>
+                    <p>它不知道"我们通常会这样做"的潜台词，除非你写出来。</p>
+                </div>
+                <div class="four-grid-item">
+                    <div class="emoji-icon">⚖️</div>
+                    <h5>缺责任意识</h5>
+                    <p>它不会真的为错误方案承担后果，所以天然倾向于先给出一个答案，而不是先承担风险。</p>
+                </div>
+                <div class="four-grid-item">
+                    <div class="emoji-icon">🚧</div>
+                    <h5>缺自发的边界感</h5>
+                    <p>人类成熟同事会知道哪些东西不能乱碰，AI 如果没有规则约束，边界感往往不稳定。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 十、不要神化 AI -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">💡</span>
+                不要神化 AI，也不要怀疑 AI
+            </h2>
+            
+            <div class="content-card">
+                <div class="grid-2">
+                    <div class="grid-card" style="border-top: 3px solid var(--stone-300);">
+                        <h5>❌ 错误的期待</h5>
+                        <ul style="margin-left: var(--space-4); color: var(--text-secondary); font-size: 14px; line-height: 1.8;">
+                            <li>把 AI 当成全自动设计专家</li>
+                            <li>希望它自动理解所有隐性知识</li>
+                            <li>指望它替代结构化思考和规则建设</li>
+                        </ul>
+                    </div>
+                    <div class="grid-card" style="border-top: 3px solid var(--stone-800);">
+                        <h5>✅ 更有效的期待</h5>
+                        <ul style="margin-left: var(--space-4); color: var(--text-secondary); font-size: 14px; line-height: 1.8;">
+                            <li>让 AI 承担高频、重复、可约束的生成工作</li>
+                            <li>让人类负责目标、规则、取舍、审美和最终判断</li>
+                            <li>把团队经验沉淀成 AI 可读取的上下文</li>
+                            <li>用校验机制替代"盲目信任"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quote-block">
+                <div class="quote-block-title">🎯 真正成熟的协作关系</div>
+                <div class="quote-block-content">人负责定义边界、沉淀规则、做最终判断；AI 负责在边界内高速执行。</div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 十一、对 TMap Studio 的直接启发 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🗺️</span>
+                对 TMap Studio 的直接启发
+            </h2>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">1</div>
+                    <div>
+                        <h3 class="numbered-card-title">不要先追求"AI 什么都能做"</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>先让它把最常见、最可控、最能形成复用的页面资产做好。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">2</div>
+                    <div>
+                        <h3 class="numbered-card-title">不要只喂设计稿，要喂规则</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>设计图可以保留，但必须配：模块摘要、状态说明、边界条件、组件约束、token 约束、禁止事项。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">3</div>
+                    <div>
+                        <h3 class="numbered-card-title">不要先迷信平台，要先沉淀最小知识包</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>在真正需要之前，不必先投入大量精力到大而全的平台接入里。先把 AI 在仓库内直接可读的知识材料准备好，通常收益更直接。</p>
+                </div>
+            </div>
+            
+            <div class="numbered-card">
+                <div class="numbered-card-header">
+                    <div class="numbered-badge">4</div>
+                    <div>
+                        <h3 class="numbered-card-title">不要省掉检查机制</h3>
+                    </div>
+                </div>
+                <div class="numbered-card-body">
+                    <p>AI 参与越深，质量校验越重要。没有检查，AI 不是提效工具，而是风险放大器。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- 十二、最后的结论 -->
+        <section class="section">
+            <div class="core-concept">
+                <div class="core-concept-title">最后的结论</div>
+                <div class="core-concept-main" style="font-size: 20px; line-height: 1.6;">AI 的问题从来不是"能力太弱"，而是人太容易把它想象成一个天然理解一切的同事。</div>
+                <p class="core-concept-desc" style="margin-top: var(--space-4);">
+                    它可以很强、也可以很快、甚至可以在很多局部任务上超过普通执行者。但它并不会自动拥有业务经验、边界意识、隐性默契和责任判断。
+                </p>
+                <p class="core-concept-desc" style="margin-top: var(--space-4);">
+                    所以，我们不应该把 AI 当成"无所不能的设计同事"，而应该把它建设成：
+                </p>
+                <p style="color: #fbbf24; font-weight: 700; font-size: 18px; margin-top: var(--space-4); line-height: 1.6;">
+                    一个建立在规则、上下文、样例和校验机制之上的设计生产系统。
+                </p>
+                <p class="core-concept-desc" style="margin-top: var(--space-4);">
+                    只有这样，AI 才不会停留在"演示很惊艳"的阶段，而能真正变成团队长期可依赖的生产力。
+                </p>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="page-footer">
+            <p>为什么 AI 不是无所不能的设计同事 — AI-UI SOP 手册子页</p>
+        </footer>
+    </div>
+</body>
+</html>
